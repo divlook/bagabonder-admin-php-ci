@@ -19,52 +19,52 @@ class Migration_Detail_info_style extends CI_Migration {
       ),
       'input1' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input2' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input3' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input4' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input5' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input6' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input7' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input8' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input9' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'input10' => array(
         'type' => 'VARCHAR',
-        'constraint' => 'MAX',
+        'constraint' => 255,
         'null' => TRUE,
       ),
       'reg_date' => array(
