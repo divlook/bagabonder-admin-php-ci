@@ -1,0 +1,11 @@
+ftp:
+  scheme: ftp #modify (ftp | sftp)
+  host: hostname #modify
+  port: port #modify
+  user: username #modify
+  pass: password #modify
+  path:
+    remote: html/ci/
+  exclude: []
+  include:
+    "application/config/database.php": "application/config"
