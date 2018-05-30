@@ -5,7 +5,7 @@ ftp:
   user: username #modify
   pass: password #modify
   path:
-    remote: html/ci/
+    remote: html/
   exclude: []
   include:
     "application/config/database.php": "application/config"
