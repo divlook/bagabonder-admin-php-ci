@@ -8,4 +8,5 @@ ftp:
     remote: html/
   exclude: []
   include:
-    "application/config/database.php": "application/config"
+    # DB설정 강제로 전송하고 싶을 때 주석풀고 사용
+    # "application/config/database.php": "application/config"
