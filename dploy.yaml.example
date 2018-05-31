@@ -6,7 +6,7 @@ ftp:
   pass: password #modify
   path:
     remote: html/
-  exclude: []
-  include:
-    # DB설정 강제로 전송하고 싶을 때 주석풀고 사용
-    # "application/config/database.php": "application/config"
+  exclude: ['dploy.yaml']
+  # include:
+  #   설정파일을 강제로 전송하고 싶을 때 주석풀고 사용
+  #   "env.ini": ""
