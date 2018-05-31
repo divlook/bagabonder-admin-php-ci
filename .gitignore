@@ -1,3 +1,8 @@
-**/*/config/database.php
-dploy.yaml
 .idea
+
+# dploy 설정파일
+dploy.yaml
+
+# 설정파일
+*.ini
+!env_example.ini
