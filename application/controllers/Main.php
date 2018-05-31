@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller {
+class Main extends CI_Controller {
 
 	public function __construct()
 	{
@@ -12,6 +12,16 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		// echo $this->Detail_info_model->get_test();
-		$this->load->view('dashboard');
 	}
+
+  public function dashboard()
+  {
+    $this->load->view('dashboard');
+  }
+
+  public function login()
+  {
+    $this->load->view('login');
+  }
+
 }
