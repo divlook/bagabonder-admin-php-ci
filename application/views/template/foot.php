@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <?php } ?>
 
-    <?php if ($layout['use_icon'] === false) { ?>
+    <?php if ($layout['use_icon'] === true) { ?>
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
       feather.replace()
