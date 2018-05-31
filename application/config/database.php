@@ -71,10 +71,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | the query builder class.
 */
 $active_group = 'default';
+if ($_ENV['database']['use']) {
+  $active_group = 'env';
+}
 $query_builder = TRUE;
 
 $db['default'] = array(
   'dsn'   => '',
+  'port' => NULL,
   'hostname' => 'localhost',
   'username' => '',
   'password' => '',
@@ -92,4 +96,29 @@ $db['default'] = array(
   'compress' => FALSE,
   'stricton' => FALSE,
   'failover' => array()
+);
+
+$db['env'] = array_merge(
+  array(
+    'dsn'   => '',
+    'port' => null,
+    'hostname' => 'localhost',
+    'username' => '',
+    'password' => '',
+    'database' => '',
+    'dbdriver' => '',
+    'dbprefix' => '',
+    'pconnect' => TRUE,
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array()
+  ),
+  $_ENV['database']
 );
