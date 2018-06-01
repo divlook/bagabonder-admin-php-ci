@@ -30,46 +30,81 @@
 
 - Parameter
 
-    | name        | type    | default | description                |
-    |:-----------:|:-------:|:-------:|:---------------------------|
-    | use_nav     | boolean | true    | 상단 nav 사용여부             |
-    | use_full    | boolean | false   | 레이아웃 사용 안할 때 가운데 정렬 |
-    | use_sidebar | boolean | true    | sidebar 사용여부             |
-    | use_icon    | boolean | true    | icon 사용여부                |
+  | name        | type    | default | description                |
+  |:------------|:-------:|:-------:|:---------------------------|
+  | use_nav     | boolean | true    | 상단 nav 사용여부             |
+  | use_full    | boolean | false   | 레이아웃 사용 안할 때 가운데 정렬 |
+  | use_sidebar | boolean | true    | sidebar 사용여부             |
+  | use_icon    | boolean | true    | icon 사용여부                |
 
 - Example
 
-    contorller/Blog.php
+  # contorller/Blog.php
 
-    ```php
-    <?php
-    class Blog extends CI_Controller {
+  ```php
+  <?php
+  class Blog extends CI_Controller {
 
-        public function index()
-        {
-            $data['layout'] = array(
-                'use_nav' => true,
-                'use_full' => false,
-                'use_sidebar' => true,
-                'use_icon' => true,
-            );
+      public function index()
+      {
+          $data['layout'] = array(
+              'use_nav' => true,
+              'use_full' => false,
+              'use_sidebar' => true,
+              'use_icon' => true,
+          );
 
-            $this->load->view('blogview', $data);
-        }
+          $this->load->view('blogview', $data);
+      }
 
-    }
-    ```
+  }
+  ```
 
-    view/blogview.php
+  # view/blogview.php
 
-    ```php
-    <?php
-    defined('BASEPATH') OR exit('No direct script access allowed');
-    $template = $this->template_lib->layout_parse(@$layout);
-    echo $template['head'];
-    ?>
-    <div>
-      <span>내용</span>
-    </div>
-    <?php echo $template['foot']; ?>
-    ```
+  ```php
+  <?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $template = $this->template_lib->layout_parse(@$layout);
+  echo $template['head'];
+  ?>
+  <div>
+    <span>내용</span>
+  </div>
+  <?php echo $template['foot']; ?>
+  ```
+
+## Response Guide
+
+- Type
+
+  # Response
+
+  | property      | type   | value                       |
+  |:--------------|:------:|:----------------------------|
+  | code          | number | [Result Code](#Result-Code) |
+  | msg           | string | [Result Code](#Result-Code) |
+  | data          | object | default = {}                |
+  | response_time | string | only development            |
+
+  # Result Code
+
+  | code | msg           | description        |
+  |:----:|:--------------|:-------------------|
+  | 0    | fail          | 실패                |
+  | 1    | success       | 성공                |
+  | 2    | required      | 필수 조건으로 인한 실패 |
+  | 3    | bad parameter | 잘못된 파라미터       |
+  | 4    | overlap       | 중복                |
+  | 5    | empty         | 데이터가 없음         |
+
+- Example
+
+  ```json
+  {
+      "code": 1,
+      "msg": "success",
+      "data": {},
+      "response_time": "0ms"
+  }
+  ```
