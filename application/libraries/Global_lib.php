@@ -73,7 +73,7 @@ class Global_lib {
 
     if (isset($param['code'])) $result['code'] = $param['code'];
     $result['msg'] = $this->result_code[$result['code']];
-    if (isset($param['msg'])) $result['msg'] = $result['msg'] . ' (' . $param['msg'] . ')';
+    if (isset($param['msg']) && strlen($param['msg']) > 0) $result['msg'] = $result['msg'] . ' (' . $param['msg'] . ')';
     if (isset($param['data'])) $result['data'] = $param['data'];
     $result['response_time'] = (time() - RESPONSE_TIME) . 'ms';
     $this->CI->output
