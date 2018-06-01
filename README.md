@@ -45,17 +45,17 @@
   <?php
   class Blog extends CI_Controller {
 
-      public function index()
-      {
-          $data['layout'] = array(
-              'use_nav' => true,
-              'use_full' => false,
-              'use_sidebar' => true,
-              'use_icon' => true,
-          );
+    public function index()
+    {
+      $data['layout'] = array(
+        'use_nav' => true,
+        'use_full' => false,
+        'use_sidebar' => true,
+        'use_icon' => true,
+      );
 
-          $this->load->view('blogview', $data);
-      }
+      $this->load->view('blogview', $data);
+    }
 
   }
   ```
@@ -82,8 +82,8 @@
 
   | property      | type   | value                       |
   |:--------------|:------:|:----------------------------|
-  | code          | number | [Result Code](#Result-Code) |
-  | msg           | string | [Result Code](#Result-Code) |
+  | code          | number | [Result Code](#result-code) |
+  | msg           | string | [Result Code](#result-code) |
   | data          | object | default = {}                |
   | response_time | string | only development            |
 
