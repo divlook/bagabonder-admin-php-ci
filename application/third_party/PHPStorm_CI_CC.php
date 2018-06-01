@@ -76,6 +76,7 @@
 	 * @property CI_Javascript       $javascript           Javascript Class
 	 ***************** YOUR LIBRARIES *****************
 	 * @property Template_lib        $template_lib
+	 * @property Global_lib          $global_lib
 	 ***************** YOUR MODELS *****************
 	 * @property User_model          $user_model
 	 * @property Detail_info_model   $detail_info_model
@@ -136,6 +137,7 @@
 	 * @property CI_Javascript       $javascript           Javascript Class
 	 ***************** YOUR LIBRARIES *****************
    * @property Template_lib        $template_lib
+   * @property Global_lib          $global_lib
 	 */
 	class CI_Model {
 		public function __construct() {
