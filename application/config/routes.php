@@ -52,5 +52,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = $_ENV['routes']['default_controller'];
 $route['dashboard'] = 'main/dashboard';
 $route['login'] = 'main/login';
+
+/*
+| -------------------------------------------------------------------------
+| API start
+| -------------------------------------------------------------------------
+*/
+
+$route['api/user/join']['post'] = 'api/user/join';
+
+/*
+| -------------------------------------------------------------------------
+| API end
+| -------------------------------------------------------------------------
+*/
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
