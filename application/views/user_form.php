@@ -4,6 +4,7 @@ $template = $this->template_lib->layout_parse(@$layout);
 echo $template['head'];
 ?>
 <form class="needs-validation form-user" novalidate="">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Please sign up</h1>
     <input type="hidden" id="input-level">
     <input type="hidden" id="input-return-url">
 
