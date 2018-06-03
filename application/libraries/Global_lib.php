@@ -18,37 +18,66 @@ class Global_lib {
     3 => 'bad parameter',
     4 => 'overlap',
     5 => 'empty',
+    100 => 'authentication error',
+    101 => 'authentication expired',
   );
 
   public function __construct()
   {
     $this->CI =& get_instance();
+    $this->authenticate();
   }
 
   public function authenticate()
   {
-    echo 'access_token 체크';
-    // 진입시 가장먼저 실행된다.
+    try {
+      $session = $this->CI->input->cookie('app_session');
 
-    // 세션을 확인한다.
-    $session = $this->input->cookie('app_session');
+      if ($session === false) $this->CI->input->set_cookie('app_session', 'session', 0);
 
-    // 세션을 생성한다.
-    if ($session === false) $this->input->set_cookie('app_session', 'session');
+      $user_idx = $this->CI->input->cookie('user_idx');
 
-    // access_token을 확인한다.
-    // auth_model
+      if (!$user_idx) {
+        return false;
+      }
 
-    // 없다면 access_token을 생성한다.
-    // auth_model
+      $access_token = $this->generate_access_token();
 
-    // access_token이 만료됐다면 로그아웃처리.
-    // auth_model : access_token 삭제
-    // $session 삭제
+      $auth_data = $this->CI->auth_model->get_auth(array(
+        'user_idx' => $user_idx,
+        'access_token' => $access_token,
+      ));
 
-    // auth와 user의 user_idx를 비교
-    // user_model
-    // auth_model
+
+      if (!$auth_data) {
+        // 이상한 방법으로 로그인 시도한 경우임.
+        throw new Exception($this->result_code[100], 100);
+      }
+
+      $expire_date = $auth_data->up_date;
+      if (!$expire_date) {
+        $expire_date = $auth_data->reg_date;
+      }
+
+      if (strtotime($this->get_datetime()) - strtotime($expire_date) >= $_ENV['config']['session_expire']) {
+        throw new Exception($this->result_code[101], 101);
+      }
+    } catch (Exception $e) {
+      // 인증오류가 발생하면 클라에서 로그아웃하도록 해야함.
+      $this->result2json(array('code' => $e->getCode()));
+      return false;
+    }
+  }
+
+  public function generate_access_token()
+  {
+    $session = $this->CI->input->cookie('app_session');
+    return $session ? hash('sha256', $session . $_ENV['security']['salt']) : false;
+  }
+
+  public function generate_password($param = array())
+  {
+    return hash('sha256', $param['password'] . $_ENV['security']['salt']);
   }
 
   public function get_json()
@@ -61,7 +90,7 @@ class Global_lib {
 
   public function get_datetime()
   {
-    return date('Y-m-d H:i:s', now($_ENV['server']['timezone']));
+    return date($_ENV['config']['date_format'], now($_ENV['server']['timezone']));
   }
 
   public function result2json($param = array()) {
