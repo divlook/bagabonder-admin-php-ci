@@ -74,12 +74,11 @@ class User extends CI_Controller {
 
     if ($result['code'] === 1) {
       $this->input->set_cookie('user_idx', $user_data->idx, 0);
+      $this->auth_model->set_auth(array(
+        'user_idx' => $user_data->idx,
+        'access_token' => $access_token,
+      ));
     }
-
-    $this->auth_model->set_auth(array(
-      'user_idx' => $user_data->idx,
-      'access_token' => $access_token,
-    ));
 
     $this->global_lib->result2json($result);
   }
