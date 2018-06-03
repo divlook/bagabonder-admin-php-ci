@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <link href="<?php echo base_url(); ?>assets/css/default.css" rel="stylesheet">
     <?php } ?>
     <?php if ($layout['has_css'] === true) { ?>
-      <link href="<?php echo base_url(); ?>assets/css/<?= $layout['css_name'] ?>.css" rel="stylesheet">
+      <link href="<?php echo base_url(); ?>assets/css/app_<?= $layout['css_name'] ?>.css" rel="stylesheet">
     <?php } ?>
   </head>
 
