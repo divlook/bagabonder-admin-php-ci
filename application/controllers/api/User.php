@@ -3,10 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
 
+  private $auth;
+
 	public function __construct()
 	{
 		parent::__construct();
-		 $this->load->model('user_model');
+		$this->load->model('user_model');
+		$this->auth = $this->global_lib->authenticate();
 	}
 
   /**
@@ -40,7 +43,6 @@ class User extends CI_Controller {
         $result['msg'] = 'DB 오류';
       }
     }
-
     $this->global_lib->result2json($result);
   }
 
@@ -80,19 +82,6 @@ class User extends CI_Controller {
     ));
 
     $this->global_lib->result2json($result);
-  }
-
-  public function logout()
-  {
-    $access_token =$this->global_lib->generate_access_token();
-
-    $this->auth_model->del_auth(array(
-      'access_token' => $access_token,
-      'user_idx' => $this->input->cookie('user_idx'),
-    ));
-
-    $this->input->set_cookie('app_session', '');
-    $this->input->set_cookie('user_idx', '');
   }
 
   public function _private_method()

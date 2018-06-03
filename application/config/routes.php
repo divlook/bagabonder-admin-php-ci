@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = $_ENV['routes']['default_controller'];
 $route['dashboard'] = 'main/dashboard';
 $route['login'] = 'main/login';
+$route['logout'] = 'main/logout';
 
 /*
 | -------------------------------------------------------------------------
@@ -61,7 +62,6 @@ $route['login'] = 'main/login';
 
 $route['api/user/join']['post'] = 'api/user/join';
 $route['api/user/login']['post'] = 'api/user/login';
-$route['api/user/logout']['get'] = 'api/user/logout';
 
 /*
 | -------------------------------------------------------------------------
