@@ -5,7 +5,7 @@ echo $template['head'];
 ?>
 <form class="needs-validation form-user" novalidate="">
     <h1 class="h3 mb-3 font-weight-normal text-center">Please sign up</h1>
-    <input type="hidden" id="input-level">
+    <input type="hidden" id="input-level" value="<?= $this->input->post('level') ?>">
     <input type="hidden" id="input-return-url">
 
     <div class="mb-3">
