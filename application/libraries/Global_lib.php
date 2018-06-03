@@ -25,17 +25,13 @@ class Global_lib {
   public function __construct()
   {
     $this->CI =& get_instance();
-    if ($this->CI->input->cookie('app_session') == false) {
-      $this->CI->input->set_cookie('app_session', 'session', 0);
-    }
+    $this->generate_session();
   }
 
   public function authenticate()
   {
     try {
-      $session = $this->CI->input->cookie('app_session');
-
-      if ($session == false) $this->CI->input->set_cookie('app_session', 'session', 0);
+      $this->generate_session();
 
       $result = array(
         'code' => 1,
@@ -92,6 +88,23 @@ class Global_lib {
   public function generate_password($param = array())
   {
     return hash('sha256', $param['password'] . $_ENV['security']['salt']);
+  }
+
+  public function generate_random_string($length = 8) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+      $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+  }
+
+  public function generate_session()
+  {
+    if ($this->CI->input->cookie('app_session') == false) {
+      $this->CI->input->set_cookie('app_session', $this->generate_random_string(), 0);
+    }
   }
 
   public function get_json()
