@@ -29,7 +29,7 @@ class User extends CI_Controller {
     if ($username_overlap === false) {
       $post_result = $this->user_model->user_post(array(
         'username' => $json->username,
-        'password' => $this->global_lib->generate_password($json->password),
+        'password' => $this->global_lib->generate_password(array('password' => $json->password)),
         'level' => $json->level,
       ));
       if ($post_result) {
@@ -65,12 +65,14 @@ class User extends CI_Controller {
       $result['msg'] = 'username';
     }
 
-    if ($json->password !== $this->global_lib->generate_password($json->password)) {
+    if ($user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
       $result['code'] = 3;
       $result['msg'] = 'password';
     }
 
-    $this->input->set_cookie('user_idx', $user_data->idx, 0);
+    if ($result['code'] === 1) {
+      $this->input->set_cookie('user_idx', $user_data->idx, 0);
+    }
 
     $this->auth_model->set_auth(array(
       'user_idx' => $user_data->idx,
