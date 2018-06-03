@@ -78,6 +78,7 @@
 	 * @property Template_lib        $template_lib
 	 * @property Global_lib          $global_lib
 	 ***************** YOUR MODELS *****************
+	 * @property Auth_model          $auth_model
 	 * @property User_model          $user_model
 	 * @property Detail_info_model   $detail_info_model
 	 */
