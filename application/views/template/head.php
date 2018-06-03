@@ -21,6 +21,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php if ($layout['has_css'] === true) { ?>
       <link href="<?php echo base_url(); ?>assets/css/app_<?= $layout['css_name'] ?>.css" rel="stylesheet">
     <?php } ?>
+
+    <script>
+        var app_config = {
+          base_url: '<?= $_ENV['config']['base_url'] ?>'
+        }
+    </script>
   </head>
 
   <body class="<?= $layout['use_full'] === true ? 'text-center' : '' ?>">
