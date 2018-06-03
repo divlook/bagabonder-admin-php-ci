@@ -60,6 +60,8 @@ $route['login'] = 'main/login';
 */
 
 $route['api/user/join']['post'] = 'api/user/join';
+$route['api/user/login']['post'] = 'api/user/login';
+$route['api/user/logout']['get'] = 'api/user/logout';
 
 /*
 | -------------------------------------------------------------------------
