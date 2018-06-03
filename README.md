@@ -8,11 +8,9 @@
 
   `env_example.ini` 파일을 참고하여 `env.ini` 파일을 만들어주세요.
 
-  `[config]`와 `[database]`만 입력하시면 됩니다.
-
   보안상 `env.ini` 파일의 이름과 주소를 변경하는게 좋습니다.
 
-  변경방법은 `index.php`에서 `APP_ENV`를 참고하시면 됩니다.
+  변경방법은 [Config Guide](#config-guide)에서 `BAGABONDER_ENV_PATH`를 참고하시면 됩니다.
 
 - DB 생성
 
@@ -24,7 +22,22 @@
 
   최초 접속시 최고관리자 아이디를 생성하게 됩니다.
 
+## Config Guide
 
+- 환경 변수
+
+  | 이름                 | 기본값                 | 설명                                                                         |
+  |---------------------|-----------------------|-----------------------------------------------------------------------------|
+  | BAGABONDER_ENV_PATH | `{workspace}/env.ini` | 서버 설정으로 `$_SERVER['BAGABONDER_ENV_PATH']` 설정 파일의 위치를 정할 수 있습니다. |
+  | BAGABONDER_ENV      | `development`         | development 또는 testing 또는 production                                      |
+  
+- `env_example.ini`
+
+  설정파일의 기본파일입니다. 자세한 설명은 아래 `env.ini`에서 하겠습니다.
+
+- `env.ini`
+
+  설명 추가 예정
 
 ## Template 사용법
 

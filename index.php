@@ -42,7 +42,16 @@
  *---------------------------------------------------------------
  *
  */
-$_ENV = array_merge($_ENV, file_exists('env.ini') ? parse_ini_file('env.ini', true) : parse_ini_file('env_example.ini', true));
+$_ENV = array_merge(
+  $_ENV,
+  file_exists('./env.ini')
+    ? parse_ini_file(
+      isset($_SERVER['BAGABONDER_ENV_PATH'])
+        ? $_SERVER['BAGABONDER_ENV_PATH']
+        : 'env.ini',
+      true)
+    : parse_ini_file('env_example.ini', true)
+);
 
 /*
  * RESPONSE_TIME
@@ -66,7 +75,7 @@ define('RESPONSE_TIME', time());
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $_ENV['server']['CI_ENV']);
+	define('ENVIRONMENT', isset($_SERVER['BAGABONDER_ENV']) ? $_SERVER['BAGABONDER_ENV'] : $_ENV['server']['BAGABONDER_ENV']);
 
 /*
  *---------------------------------------------------------------
