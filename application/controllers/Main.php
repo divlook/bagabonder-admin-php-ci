@@ -68,4 +68,15 @@ class Main extends CI_Controller {
     redirect($redirect_url);
   }
 
+  public function join()
+  {
+    $data['layout'] = array(
+      'use_nav' => false,
+      'use_full' => true,
+      'use_sidebar' => false,
+      'use_icon' => false,
+    );
+    $this->load->view('user_form', $data);
+  }
+
 }

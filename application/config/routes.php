@@ -53,6 +53,7 @@ $route['default_controller'] = $_ENV['routes']['default_controller'];
 $route['dashboard'] = 'main/dashboard';
 $route['login'] = 'main/login';
 $route['logout'] = 'main/logout';
+$route['join'] = 'main/join';
 
 /*
 | -------------------------------------------------------------------------
