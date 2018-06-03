@@ -45,8 +45,8 @@ class User_model extends CI_Model {
   public function get_user_data($param = array())
   {
     $this->db->from('user');
-    if ($param['idx']) $this->db->where('idx', $param['idx']);
-    if ($param['username']) $this->db->where('username', $param['username']);
+    if (isset($param['idx'])) $this->db->where('idx', $param['idx']);
+    if (isset($param['username'])) $this->db->where('username', $param['username']);
     $query = $this->db->get();
     return $query->row();
   }
