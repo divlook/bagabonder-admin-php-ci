@@ -20,8 +20,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </script>
     <?php } ?>
 
+    <script src="<?php echo base_url(); ?>assets/js/axios.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
+
     <?php if ($layout['has_js'] === true) { ?>
-        <script src="<?php echo base_url(); ?>assets/js/<?= $layout['js_name'] ?>.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/<?= $layout['js_name'] ?>.js"></script>
     <?php } ?>
 
   </body>
