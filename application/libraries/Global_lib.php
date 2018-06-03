@@ -25,7 +25,9 @@ class Global_lib {
   public function __construct()
   {
     $this->CI =& get_instance();
-    $this->authenticate();
+    if ($this->CI->input->cookie('app_session') == false) {
+      $this->CI->input->set_cookie('app_session', 'session', 0);
+    }
   }
 
   public function authenticate()
@@ -33,12 +35,18 @@ class Global_lib {
     try {
       $session = $this->CI->input->cookie('app_session');
 
-      if ($session === false) $this->CI->input->set_cookie('app_session', 'session', 0);
+      if ($session == false) $this->CI->input->set_cookie('app_session', 'session', 0);
+
+      $result = array(
+        'code' => 1,
+        'msg' => '',
+        'data' => (object) array(),
+      );
 
       $user_idx = $this->CI->input->cookie('user_idx');
 
       if (!$user_idx) {
-        return false;
+        throw new Exception('user_idx', 5);
       }
 
       $access_token = $this->generate_access_token();
@@ -48,11 +56,12 @@ class Global_lib {
         'access_token' => $access_token,
       ));
 
-
       if (!$auth_data) {
         // 이상한 방법으로 로그인 시도한 경우임.
-        throw new Exception($this->result_code[100], 100);
+        throw new Exception('', 100);
       }
+
+      $result['data'] = $auth_data;
 
       $expire_date = $auth_data->up_date;
       if (!$expire_date) {
@@ -60,12 +69,17 @@ class Global_lib {
       }
 
       if (strtotime($this->get_datetime()) - strtotime($expire_date) >= $_ENV['config']['session_expire']) {
+        // 세션이 만료되었음.
         throw new Exception($this->result_code[101], 101);
       }
+
+      return $result;
     } catch (Exception $e) {
-      // 인증오류가 발생하면 클라에서 로그아웃하도록 해야함.
-      $this->result2json(array('code' => $e->getCode()));
-      return false;
+      return array(
+        'code' => $e->getCode(),
+        'msg' => $e->getMessage(),
+        'data' => (object) array(),
+      );
     }
   }
 
