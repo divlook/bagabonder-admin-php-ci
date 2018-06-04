@@ -76,7 +76,7 @@ class Main extends CI_Controller {
       'use_sidebar' => false,
       'use_icon' => false,
     );
-    $this->load->view('user_form', $data);
+    $this->load->view('join', $data);
   }
 
 }
