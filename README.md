@@ -24,20 +24,56 @@
 
 ## Config Guide
 
-- 환경 변수
+### 환경 변수
 
   | 이름                 | 기본값                 | 설명                                                                         |
   |---------------------|-----------------------|-----------------------------------------------------------------------------|
   | BAGABONDER_ENV_PATH | `{workspace}/env.ini` | 서버 설정으로 `$_SERVER['BAGABONDER_ENV_PATH']` 설정 파일의 위치를 정할 수 있습니다. |
   | BAGABONDER_ENV      | `development`         | development 또는 testing 또는 production                                      |
   
-- `env_example.ini`
+### env_example.ini
 
   설정파일의 기본파일입니다. 자세한 설명은 아래 `env.ini`에서 하겠습니다.
 
-- `env.ini`
+### env.ini
 
   설명 추가 예정
+  
+### Sidemenu
+
+  사이드 메뉴를 관리합니다. `index.php` 파일에서 `sidemenu`를 검색하세요.
+  
+  - Example
+  
+    ```php
+    <?php
+    $config['sidemenu'] = array(
+      array(
+        'name' => 'Dashboard',
+        'icon' => 'home',
+        'path' => 'dashboard',
+      ),
+      array(
+        'name' => '관리자 관리',
+        'icon' => 'users',
+        'path' => 'user',
+      ),
+      array(
+        'name' => 'etc',
+        'icon' => 'layers',
+        'path' => 'etc',
+      ),
+    );
+    ```
+  
+  - Type
+  
+    | 이름    | 타입    | 기본값    | 설명   |
+    |--------|--------|----------|:------|
+    | name   | string | required | 메뉴명 |
+    | icon   | string |          | 값이 있으면 icon을 표시합니다. [아이콘 이미지명 참고사이트](https://feathericons.com/) |
+    | path   | string | required | `dashboard` |
+    | target | string |          | 'blank | _blank | _self | _top | ...' |
 
 ## Template 사용법
 

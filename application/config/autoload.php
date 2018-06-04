@@ -105,6 +105,11 @@ $autoload['helper'] = array('cookie', 'url', 'date');
 */
 $autoload['config'] = array();
 
+$second_config = isset($_SERVER['SECOND_CONFIG']) ? $_SERVER['SECOND_CONFIG'] : $_ENV['server']['SECOND_CONFIG'];
+if ($second_config) {
+  $autoload['config'][] = $second_config . '/config.php';
+}
+
 /*
 | -------------------------------------------------------------------
 |  Auto-load Language files
