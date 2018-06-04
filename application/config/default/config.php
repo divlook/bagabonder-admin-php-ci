@@ -9,7 +9,6 @@ $config['sidemenu'] = array(
   ),
   array(
     'name' => '관리자',
-    'icon' => 'settings',
     'path' => 'admin',
     'child' => array(
       array(

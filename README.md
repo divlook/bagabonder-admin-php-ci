@@ -54,9 +54,15 @@
         'path' => 'dashboard',
       ),
       array(
-        'name' => '관리자 관리',
-        'icon' => 'users',
-        'path' => 'user',
+        'name' => '관리자',
+        'path' => 'admin',
+        'child' => array(
+          array(
+            'name' => '관리자 목록',
+            'icon' => 'users',
+            'path' => 'users',
+          ),
+        ),
       ),
       array(
         'name' => 'etc',
@@ -68,11 +74,23 @@
   
   - Type
   
+    # Sidemenu Type
+  
     | 이름    | 타입    | 기본값    | 설명   |
     |--------|--------|----------|:------|
     | name   | string | required | 메뉴명 |
-    | icon   | string |          | 값이 있으면 icon을 표시합니다. [아이콘 이미지명 참고사이트](https://feathericons.com/) |
-    | path   | string | required | `dashboard` |
+    | icon   | string |          | 값이 있으면 icon을 표시합니다. 아이콘명은 [참고사이트](https://feathericons.com/)를 참고해주세요. `child`가 있으면 강제로 `folder-plus` 나 `folder-minus`가 됩니다. |
+    | path   | string | required | `dashboard` 입력시 `{base_url}/dashboard`가 됩니다. |
+    | target | string |          | 'blank | _blank | _self | _top | ...' |
+    | child  | array  |          | [Sidemenu Child Type](#sidemenu-child-type) |
+    
+    # Sidemenu Child Type
+
+    | 이름    | 타입    | 기본값    | 설명   |
+    |--------|--------|----------|:------|
+    | name   | string | required | 메뉴명 |
+    | icon   | string |          | 값이 있으면 icon을 표시합니다. 아이콘명은 [참고사이트](https://feathericons.com/)를 참고해주세요. `child`가 있으면 강제로 `folder-plus` 나 `folder-minus`가 됩니다. |
+    | path   | string | required | `user` 입력시 `{base_url}/{parent_path}/user`가 됩니다. |
     | target | string |          | 'blank | _blank | _self | _top | ...' |
 
 ## Template 사용법
