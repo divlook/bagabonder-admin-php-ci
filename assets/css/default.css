@@ -52,10 +52,37 @@ body {
   color: #007bff;
 }
 
+
 .sidebar .nav-link:hover .feather,
 .sidebar .nav-link.active .feather {
-  color: inherit;
+color: inherit;
 }
+
+
+.sidebar .nav-item .nav-link.folder > .nav-icon.on {
+  display: none;
+}
+
+.sidebar .nav-item .nav-link.folder > .nav-icon.off {
+  display: inline;
+}
+
+.sidebar .nav-item.active .nav-link.folder > .nav-icon.on {
+  display: inline;
+}
+
+.sidebar .nav-item.active .nav-link.folder > .nav-icon.off {
+  display: none;
+}
+
+.sidebar .nav-item > .nav {
+  display: none;
+}
+
+.sidebar .nav-item.active > .nav {
+  display: block;
+}
+
 
 .sidebar-heading {
   font-size: .75rem;

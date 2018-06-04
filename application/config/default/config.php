@@ -8,9 +8,16 @@ $config['sidemenu'] = array(
     'path' => 'dashboard',
   ),
   array(
-    'name' => '관리자 관리',
-    'icon' => 'users',
-    'path' => 'user',
+    'name' => '관리자',
+    'icon' => 'settings',
+    'path' => 'admin',
+    'child' => array(
+      array(
+        'name' => '관리자 목록',
+        'icon' => 'users',
+        'path' => 'users',
+      ),
+    ),
   ),
   array(
     'name' => 'etc',
