@@ -89,7 +89,7 @@
     | 이름    | 타입    | 기본값    | 설명   |
     |--------|--------|----------|:------|
     | name   | string | required | 메뉴명 |
-    | icon   | string |          | 값이 있으면 icon을 표시합니다. 아이콘명은 [참고사이트](https://feathericons.com/)를 참고해주세요. `child`가 있으면 강제로 `folder-plus` 나 `folder-minus`가 됩니다. |
+    | icon   | string |          | 값이 있으면 icon을 표시합니다. 아이콘명은 [참고사이트](https://feathericons.com/)를 참고해주세요. |
     | path   | string | required | `user` 입력시 `{base_url}/{parent_path}/user`가 됩니다. |
     | target | string |          | 'blank | _blank | _self | _top | ...' |
 
