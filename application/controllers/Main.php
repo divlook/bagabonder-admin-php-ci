@@ -32,6 +32,7 @@ class Main extends CI_Controller {
 
   public function login()
   {
+    $data = array();
     $data['layout'] = array(
       'use_nav' => false,
       'use_full' => true,
@@ -70,6 +71,7 @@ class Main extends CI_Controller {
 
   public function join()
   {
+    $data = array();
     $data['layout'] = array(
       'use_nav' => false,
       'use_full' => true,
