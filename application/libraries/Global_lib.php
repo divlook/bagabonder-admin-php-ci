@@ -137,4 +137,14 @@ class Global_lib {
       ->set_output(json_encode($result));
   }
 
+  public function make_query_string($param = array()) {
+    $result = '';
+    foreach ($param as $key => $val) {
+      if ($result) $result .= '&';
+      $result .= $key . '=' . $val;
+    }
+    if ($result) $result = '?' . $result;
+    return $result;
+  }
+
 }
