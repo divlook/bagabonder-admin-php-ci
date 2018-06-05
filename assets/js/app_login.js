@@ -13,7 +13,7 @@
       return false
     }
 
-    axios.post(app_config.base_url + '/api/user/login', {
+    axios.post(app.url.join('api/user/login'), {
       username: username.value,
       password: password.value,
     }).then(function (response) {
