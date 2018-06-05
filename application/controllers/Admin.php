@@ -12,6 +12,7 @@ class Admin extends CI_Controller {
     if ($this->auth['code'] !== 1) {
       redirect('logout?code='. $this->auth['code']);
     }
+    $this->load->model('user_model');
 	}
 
 	public function index()
@@ -21,11 +22,17 @@ class Admin extends CI_Controller {
 
   public function users()
   {
+    $list_param = $this->global_lib->get_list_param(array(
+      'page' => $this->input->get('page'),
+    ));
+
     $data = array(
       'header' => array(
         'title' => '관리자 관리'
-      )
+      ),
+      'users' => $this->user_model->get_user_data_list($list_param),
     );
+
     $this->load->view('admin/users', $data);
   }
 
