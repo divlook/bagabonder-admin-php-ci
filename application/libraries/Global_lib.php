@@ -120,7 +120,8 @@ class Global_lib {
     return date($_ENV['config']['date_format'], now($_ENV['server']['timezone']));
   }
 
-  public function result2json($param = array()) {
+  public function result2json($param = array())
+  {
     $result = array(
       'code' => 0,
       'msg' => '',
@@ -137,13 +138,23 @@ class Global_lib {
       ->set_output(json_encode($result));
   }
 
-  public function make_query_string($param = array()) {
+  public function make_query_string($param = array())
+  {
     $result = '';
     foreach ($param as $key => $val) {
       if ($result) $result .= '&';
       $result .= $key . '=' . $val;
     }
     if ($result) $result = '?' . $result;
+    return $result;
+  }
+
+  public function get_list_param($param = array())
+  {
+    $result = array();
+    $result['page'] = isset($param['page']) ? $param['page'] : $this->CI->input->get('page') ? $this->CI->input->get('page') : 1;
+    $result['limit'] = isset($param['limit']) ? $param['limit'] : 20;
+    $result['offset'] = ($result['page'] - 1) * $result['limit'];
     return $result;
   }
 
