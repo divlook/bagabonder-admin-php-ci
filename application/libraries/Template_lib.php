@@ -53,6 +53,7 @@ class Template_lib {
     $data = array('layout' => $this->layout_validation($layout));
     return array(
       'head' => $this->CI->load->view('template/head', $data, true),
+      'main' => $this->main_parse(),
       'foot' => $this->CI->load->view('template/foot', $data, true),
     );
   }
@@ -68,6 +69,14 @@ class Template_lib {
   {
     $data = array('header' => $this->header_validation($header));
     return $this->CI->load->view('template/main/header', $data, true);
+  }
+
+  public function main_parse()
+  {
+    return array(
+      'open' => '<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">',
+      'close' => '</main>',
+    );
   }
 
 }
