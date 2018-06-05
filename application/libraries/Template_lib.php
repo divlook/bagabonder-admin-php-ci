@@ -79,4 +79,68 @@ class Template_lib {
     );
   }
 
+  public function table_validation($param = array())
+  {
+    if (!isset($param['page']))
+      $param['page'] = $this->CI->input->get('page') ? $this->CI->input->get('page') : 1;
+    if (!isset($param['use_pagination']))
+      $param['use_pagination'] = true;
+    if (!isset($param['limit']))
+      $param['limit'] = 20;
+    if (!isset($param['column']))
+      $param['column'] = array();
+    if (!isset($param['rows']))
+      $param['rows'] = array();
+    if (!isset($param['total']))
+      $param['total'] = count($param['rows']);
+    $param['offset'] = ($param['page'] - 1) * $param['limit'];
+    return $param;
+  }
+
+  public function table_parse($param = array())
+  {
+    $data = $this->table_validation($param);
+    return $this->CI->load->view('template/main/table', $data, true);
+  }
+
+  public function pagination_link($param = array())
+  {
+    $query_string = array_merge($_GET, $param);
+    return current_url() . $this->CI->global_lib->make_query_string($query_string);
+  }
+
+  public function pagination_validation($param = array())
+  {
+    if (!isset($param['pagination_align']))
+      $param['pagination_align'] = 'left';
+    if (!isset($param['page']))
+      $param['page'] = $this->CI->input->get('page') ? $this->CI->input->get('page') : 1;
+    if (!isset($param['limit']))
+      $param['limit'] = 20;
+    if (!isset($param['total']))
+      $param['total'] = 0;
+
+    $param['page_max'] = ceil($param['total'] / $param['limit']);
+    $param['align'] = '';
+
+    /**
+     * align
+     * -left = justify-content-start
+     * -center = justify-content-center
+     * -right = justify-content-end
+     */
+    switch ($param['pagination_align']) {
+      case 'center': $param['align'] = 'justify-content-center'; break;
+      case 'right': $param['align'] = 'justify-content-end'; break;
+      default: $param['align'] = 'justify-content-start'; break;
+    }
+    return $param;
+  }
+
+  public function pagination_parse($param = array())
+  {
+    $data = $this->pagination_validation($param);
+    return $this->CI->load->view('template/main/pagination', $data, true);
+  }
+
 }
