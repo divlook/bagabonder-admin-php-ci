@@ -95,7 +95,7 @@
 
 ## Template 사용법
 
-- Parameter
+### Parameter
 
   | name        | type    | default | description                |
   |:------------|:-------:|:-------:|:---------------------------|
@@ -104,9 +104,9 @@
   | use_sidebar | boolean | true    | sidebar 사용여부             |
   | use_icon    | boolean | true    | icon 사용여부                |
 
-- Example
+### Example
 
-  # contorller/Blog.php
+- contorller/Blog.php
 
   ```php
   <?php
@@ -127,7 +127,7 @@
   }
   ```
 
-  # view/blogview.php
+- view/blogview.php
 
   ```php
   <?php
@@ -139,6 +139,89 @@
     <span>내용</span>
   </div>
   <?php echo $template['foot']; ?>
+  ```
+
+### Table Template
+
+- Type
+
+  | name           | type     | default  | description                |
+  |:---------------|:--------:|:--------:|:---------------------------|
+  | page           | number   | 1        | 현재 페이지 번호. controller에 `GET`으로 전달받음. |
+  | use_pagination | boolean  | true     | 페이지네이션 사용여부 |
+  | limit          | number   | 20       | 현재 페이지에 출력할 게시물의 수 |
+  | column         | string[] | required | `<th>` |
+  | rows           | object[] | required |  |
+  | total          | number   | 0        | 게시물의 총합 |
+
+- controllers/Etc.php
+
+  ```php
+  <?php
+  class Etc extends CI_Controller {
+    public function index()
+    {
+      // fake option
+      $page = $this->input->get('page') ? $this->input->get('page') : 1;
+      $limit = 20;
+      $offset = ($page - 1) * $limit;
+      $total = 231;
+  
+      $data = array(
+        'header' => array(
+          'title' => 'Example Page'
+        ),
+        'data' => array(
+          'column' => array('A', 'B', 'C'),
+          'rows' => array(),
+          'total' => $total,
+          'limit' => $limit,
+          'use_pagination' => true,
+          'pagination_align' => 'center',
+        ),
+      );
+  
+      // fake rows
+      for ($i=0;$i<$limit;$i++) {
+        $idx = $total - $offset - $i;
+        if ($idx === 0) continue;
+        $data['data']['rows'][] = (object) array(
+          'A' => 'a' . $idx,
+          'B' => 'b' . $idx,
+          'C' => 'c' . $idx,
+        );
+      }
+  
+      $this->load->view('etc_page_example', $data);
+    }
+  }
+  ```
+
+- views/etc_page_example.php
+
+  ```php
+  <?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $template = $this->template_lib->layout_parse(@$layout);
+  echo $template['head'];
+  echo $template['main']['open'];
+  ?>
+    <?= $this->template_lib->header_parse(@$header) ?>
+    <div class="btn-toolbar mb-2 pt-2 pb-2">
+      <div class="btn-group mr-2">
+        <button class="btn btn-sm btn-outline-secondary">Share</button>
+        <button class="btn btn-sm btn-outline-secondary">Export</button>
+      </div>
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        <span data-feather="calendar"></span>
+        This week
+      </button>
+    </div>
+    <?= $this->template_lib->table_parse(@$data) ?>
+  <?php
+  echo $template['main']['close'];
+  echo $template['foot'];
+  ?>
   ```
 
 ## Response Guide
