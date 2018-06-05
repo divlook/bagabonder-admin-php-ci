@@ -50,4 +50,23 @@ class User_model extends CI_Model {
     $query = $this->db->get();
     return $query->row();
   }
+
+  public function get_user_data_list($param = array())
+  {
+    $table = 'user';
+    $param['column'] = $this->db->list_fields($table);
+    $param['column'] = array_values(array_diff($param['column'], array('password', 'del_date')));
+
+    $this->db->where('del_date', NULL);
+    $param['total'] = $this->db->count_all_results($table);
+
+    $this->db->select(implode(',', $param['column']));
+    $this->db->where('del_date', NULL);
+    $this->db->limit($param['limit']);
+    $this->db->offset($param['offset']);
+    $this->db->order_by('idx', 'desc');
+    $param['rows'] = $this->db->get($table)->result();
+
+    return $param;
+  }
 }
