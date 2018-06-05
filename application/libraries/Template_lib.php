@@ -57,4 +57,17 @@ class Template_lib {
     );
   }
 
+  public function header_validation($header = array())
+  {
+    if (!isset($header['title']))
+      $header['title'] = 'No title';
+    return $header;
+  }
+
+  public function header_parse($header = array())
+  {
+    $data = array('header' => $this->header_validation($header));
+    return $this->CI->load->view('template/main/header', $data, true);
+  }
+
 }
