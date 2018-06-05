@@ -40,7 +40,7 @@ class Etc extends CI_Controller {
     for ($i=0;$i<$limit;$i++) {
       $idx = $total - $offset - $i;
       if ($idx === 0) continue;
-      $data['data']['rows'][] = array(
+      $data['data']['rows'][] = (object) array(
         'A' => 'a' . $idx,
         'B' => 'b' . $idx,
         'C' => 'c' . $idx,

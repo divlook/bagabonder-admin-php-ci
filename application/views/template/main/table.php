@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ?>
         <tr>
           <td><?= $num ?></td>
-          <?php foreach ($column as $col) { echo '<td>' . $row[$col] .'</td>'; } ?>
+          <?php foreach ($column as $col) { echo '<td>' . $row->{$col} .'</td>'; } ?>
         </tr>
       <?php } ?>
     </tbody>
