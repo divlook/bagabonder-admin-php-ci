@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$uri_string = uri_string();
 ?><!doctype html>
 <html lang="ko">
 <head>
@@ -51,9 +50,15 @@ $uri_string = uri_string();
   <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
-        <?php foreach ($this->config->config['sidemenu'] as $key => $row) { ?>
+        <?php foreach ($this->config->config['sidemenu'] as $key => $row) {
+          $parent_uri_string = uri_string();
+          if (isset($row['child'])) {
+            $child_uri_string = $parent_uri_string;
+            $parent_uri_string = $this->uri->segment(1);
+          }
+          ?>
           <li class="nav-item <?= isset($row['child']) ? 'active folder' : '' ?>" data-key="<?= $key ?>">
-            <a class="nav-link <?= $uri_string == $row['path'] ? 'active' : '' ?> <?= isset($row['child']) ? 'folder' : '' ?>" href="<?= isset($row['child']) ? 'javascript:void()' : base_url() . $row['path'] ?>" target="<?= isset($row['target']) ? $row['target'] : false ?>">
+            <a class="nav-link <?= $parent_uri_string == $row['path'] ? 'active' : '' ?> <?= isset($row['child']) ? 'folder' : '' ?>" href="<?= isset($row['child']) ? 'javascript:void()' : base_url() . $row['path'] ?>" target="<?= isset($row['target']) ? $row['target'] : false ?>">
               <?php if (isset($row['child'])) { ?>
                 <span class="nav-icon off" data-feather="folder-plus"></span>
                 <span class="nav-icon on" data-feather="folder-minus"></span>
@@ -61,7 +66,7 @@ $uri_string = uri_string();
                 <span data-feather="<?= $row['icon'] ?>"></span>
               <?php } ?>
               <?= $row['name'] ?>
-              <?php if ($uri_string == $row['path']) { ?>
+              <?php if ($parent_uri_string == $row['path']) { ?>
                 <span class="sr-only">(current menu)</span>
               <?php } ?>
             </a>
@@ -69,13 +74,13 @@ $uri_string = uri_string();
             <ul class="nav flex-column">
               <?php foreach ($row['child'] as $child_key => $child_row) { ?>
                 <li class="nav-item">
-                  <a class="nav-link <?= $uri_string == $child_row['path'] ? 'active' : 'text-black-50' ?>" href="<?= base_url(). $row['path'] . '/' . $child_row['path'] ?>" target="<?= isset($child_row['target']) ? $child_row['target'] : false ?>">
+                  <a class="nav-link <?= $child_uri_string == $row['path'] . '/' . $child_row['path'] ? 'active' : 'text-black-50' ?>" href="<?= base_url(). $row['path'] . '/' . $child_row['path'] ?>" target="<?= isset($child_row['target']) ? $child_row['target'] : false ?>">
                     -
                     <?php if (isset($child_row['icon']) && $child_row['icon']) { ?>
                       <span data-feather="<?= $child_row['icon'] ?>"></span>
                     <?php } ?>
                     <?= $child_row['name'] ?>
-                    <?php if ($uri_string == $child_row['path']) { ?>
+                    <?php if ($child_uri_string == $child_row['path']) { ?>
                       <span class="sr-only">(current submenu)</span>
                     <?php } ?>
                   </a>
