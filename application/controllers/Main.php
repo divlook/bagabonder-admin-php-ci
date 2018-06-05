@@ -26,7 +26,11 @@ class Main extends CI_Controller {
       redirect('logout?code='. $this->auth['code']);
     }
 
-    $data = array();
+    $data = array(
+      'header' => array(
+        'title' => 'Dashboard',
+      ),
+    );
     $this->load->view('dashboard', $data);
   }
 
