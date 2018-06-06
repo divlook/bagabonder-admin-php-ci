@@ -27,10 +27,10 @@
         switch (result.code) {
           case 4:
             username_feedback.innerText = '"' + username.value + '" is overlap.'
-            username.value = ''
-            form.classList.add('was-validated')
+            username.classList.add('is-invalid')
             break
           default:
+            username.classList.remove('is-invalid')
             username_feedback.innerText = 'Your username is required.'
             break
         }
