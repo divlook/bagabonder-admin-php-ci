@@ -26,11 +26,30 @@ class Admin extends CI_Controller {
       'page' => $this->input->get('page'),
     ));
 
+    $user_data = $this->user_model->get_user_data(array(
+      'idx' => $this->auth['data']->user_idx,
+    ));
+    unset($user_data->password);
+
+    $table_data = $this->user_model->get_user_data_list($list_param);
+    $table_data['col_option'] = array(
+      'idx' => array(
+        'hidden' => TRUE,
+      ),
+      'reg_date' => array(
+        'name' => '가입일',
+      ),
+      'up_date' => array(
+        'name' => '최근 접속일',
+      ),
+    );
+
     $data = array(
       'header' => array(
         'title' => '관리자 관리'
       ),
-      'users' => $this->user_model->get_user_data_list($list_param),
+      'user' => $user_data,
+      'users' => $table_data,
     );
 
     $this->load->view('admin/users', $data);
