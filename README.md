@@ -293,14 +293,17 @@
 
   # Result Code
 
-  | code | msg           | description        |
-  |:----:|:--------------|:-------------------|
-  | 0    | fail          | 실패                |
-  | 1    | success       | 성공                |
-  | 2    | required      | 필수 조건으로 인한 실패 |
-  | 3    | bad parameter | 잘못된 파라미터       |
-  | 4    | overlap       | 중복                |
-  | 5    | empty         | 데이터가 없음         |
+  | code | msg                    | description |
+  |:----:|:-----------------------|:------------|
+  | 0    | fail                   | 실패 |
+  | 1    | success                | 성공 |
+  | 2    | required               | 필수 조건으로 인한 실패 |
+  | 3    | bad parameter          | 잘못된 파라미터 |
+  | 4    | overlap                | 중복 |
+  | 5    | empty                  | 데이터가 없음 |
+  | 6    | forbidden              | 금지된 |
+  | 100  | authentication error   | 인증 에러 |
+  | 101  | authentication expired | 만료된 인증 |
 
 - Example
 
