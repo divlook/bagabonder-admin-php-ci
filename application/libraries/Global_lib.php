@@ -18,6 +18,7 @@ class Global_lib {
     3 => 'bad parameter',
     4 => 'overlap',
     5 => 'empty',
+    6 => 'forbidden',
     100 => 'authentication error',
     101 => 'authentication expired',
   );
