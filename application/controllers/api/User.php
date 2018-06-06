@@ -78,6 +78,9 @@ class User extends CI_Controller {
         'user_idx' => $user_data->idx,
         'access_token' => $access_token,
       ));
+      $this->user_model->put_user_data(array(
+        'idx' => $user_data->idx,
+      ));
     }
 
     $this->global_lib->result2json($result);
