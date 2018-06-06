@@ -47,7 +47,7 @@ class User extends CI_Controller {
       $post_result = $this->user_model->user_post(array(
         'username' => $json->username,
         'password' => $this->global_lib->generate_password(array('password' => $json->password)),
-        'level' => $json->access_token ? 1 : 2,
+        'level' => isset($json->access_token) ? 1 : 2,
       ));
       if (!$post_result) {
         $result['code'] = 0;
