@@ -4,11 +4,16 @@
   var form = document.querySelector('.form-user');
   var inputs = form.querySelectorAll('input');
   var idx = form.querySelector('#input-idx')
+
   var username = form.querySelector('#input-username')
   var username_feedback = form.querySelector('#input-username-feedback')
+
   var password = form.querySelector('#input-password')
+  var password_feedback = form.querySelector('#input-password-feedback')
+
   var new_password = form.querySelector('#input-new-password')
   var new_password_feedback = form.querySelector('#input-new-password-feedback')
+
   var new_password_confirm = form.querySelector('#input-new-password-confirm')
   var new_password_feedback_confirm = form.querySelector('#input-new-password-confirm-feedback')
 
@@ -36,27 +41,58 @@
         }
       })
     }
+
+    if (event.target.id == 'input-new-password' || event.target.id == 'input-new-password-confirm') {
+      if (new_password.value) {
+        new_password.setAttribute('required', '')
+        new_password_confirm.setAttribute('required', '')
+      } else {
+        new_password.removeAttribute('required')
+        new_password_confirm.removeAttribute('required')
+      }
+
+      if (new_password.value !== new_password_confirm.value) {
+        new_password_confirm.classList.add('is-invalid')
+      } else {
+        new_password_confirm.classList.remove('is-invalid')
+      }
+    }
   }
 
 
   var submit_callback = function (event) {
+    var data = {
+      idx: idx.value,
+      username: username.value,
+      password: password.value,
+    }
+
     if (!password.value || !idx.value) {
       return false
     }
+    if (new_password.value) {
+      if (new_password.value !== new_password_confirm.value) {
+        new_password_confirm.value = ''
+        new_password_confirm.focus()
+        return false
+      }
+      data.new_password = new_password.value
+    }
+
     axios({
       method: 'put',
       url: app.url.join('api/user/info'),
-      data: {
-        idx: idx.value,
-        username: username.value,
-        password: password.value,
-      }
+      data: data,
     }).then(function (response) {
       var result = response.data
 
       switch (result.code) {
         case 1:
           alert('success')
+          break
+        case 3:
+          password.value = ''
+          password.focus()
           break
         default:
           alert('error')

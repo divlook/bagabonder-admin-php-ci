@@ -17,7 +17,7 @@ echo $this->template_lib->header_parse(@$header);
     <div class="mb-3">
       <label for="input-password">password</label>
       <input type="password" class="form-control" id="input-password" placeholder="********" required>
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" id="input-password-feedback">
         Your password is required.
       </div>
     </div>
@@ -32,9 +32,9 @@ echo $this->template_lib->header_parse(@$header);
 
     <div class="mb-3">
       <label for="input-password">new password confirm</label>
-      <input type="password" class="form-control" id="input-new-password2" placeholder="********">
+      <input type="password" class="form-control" id="input-new-password-confirm" placeholder="********">
       <div class="invalid-feedback" id="input-new-password-confirm-feedback">
-        Your new-password-confirm is required.
+        new-password and new-password-confirm are different
       </div>
     </div>
 
