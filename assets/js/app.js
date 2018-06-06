@@ -36,6 +36,22 @@
         return url
       }
     }
+    this.debounce = function (fn, delay, event_prevent) {
+      var timer = null
+      return function() {
+        var context = this
+        var args = arguments
+        var event = args[0]
+        if (event && 'preventDefault' in event && event_prevent)
+          event.preventDefault()
+        if (event && 'stopPropagation' in event)
+          event.stopPropagation()
+        clearTimeout(timer)
+        timer = setTimeout(function() {
+          fn.apply(context, args)
+        }, delay)
+      }
+    }
   }
   window.app = new app()
 })()
