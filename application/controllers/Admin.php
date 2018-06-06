@@ -55,8 +55,9 @@ class Admin extends CI_Controller {
     $this->load->view('admin/users', $data);
   }
 
-  public function info($idx = '')
+  public function info()
   {
+    $idx = $this->input->get('idx');
     $user_data = $this->user_model->get_user_data(array(
       'idx' => $this->auth['data']->user_idx,
     ));
