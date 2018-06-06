@@ -93,16 +93,26 @@ class User extends CI_Controller {
       return;
     }
     $json = $this->global_lib->get_json();
-
     $result = array('code' => 1);
+    $put_param = array('idx' => $json->idx);
+    $user_data = (object) array();
 
-    $user_data = $this->user_model->get_user_data(array(
-      'idx' => $json->idx,
-    ));
+    if (!isset($json->idx)) {
+      $result['code'] = 2;
+      $result['msg'] = 'idx';
+    }
 
-    $put_param = array('idx' => $user_data->idx);
+    if ($result['code'] === 1) {
+      $user_data = $this->user_model->get_user_data(array(
+        'idx' => $json->idx,
+      ));
+      if (!$user_data) {
+        $result['code'] = 5;
+        $result['msg'] = 'user';
+      }
+    }
 
-    if ($user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
+    if ($result['code'] === 1 && $user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
       $result['code'] = 3;
       $result['msg'] = 'password';
     }
@@ -121,6 +131,28 @@ class User extends CI_Controller {
       if (!$put_result) {
         $result['code'] = 0;
         $result['msg'] = 'DB 오류';
+      }
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
+  public function check()
+  {
+    $result = array('code' => 1);
+
+    $username = $this->input->get('username');
+
+    if (!$username) {
+      $result['code'] = 2;
+      $result['msg'] = 'username';
+    }
+
+    if ($result['code'] === 1) {
+      $username_overlap = $this->user_model->username_check($username) > 0;
+      if ($username_overlap) {
+        $result['code'] = 4;
+        $result['msg'] = 'username';
       }
     }
 
