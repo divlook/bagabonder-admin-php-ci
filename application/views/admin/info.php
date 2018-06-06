@@ -5,11 +5,11 @@ echo $template['head'];
 echo $template['main']['open'];
 echo $this->template_lib->header_parse(@$header);
 ?>
-  <form class="needs-validation form-user" novalidate="">
+  <form class="needs-validation form-user" novalidate>
     <div class="mb-3">
       <label for="input-username">Username</label>
-      <input type="text" class="form-control" id="input-username" placeholder="Username" value="<?= $user->username ?>" required>
-      <div class="invalid-feedback" style="width: 100%;">
+      <input type="text" class="form-control" id="input-username" placeholder="Username" autocomplete="off" value="<?= $user->username ?>" required>
+      <div class="invalid-feedback" id="input-username-feedback">
         Your username is required.
       </div>
     </div>
@@ -23,13 +23,29 @@ echo $this->template_lib->header_parse(@$header);
     </div>
 
     <div class="mb-3">
+      <label for="input-password">new password</label>
+      <input type="password" class="form-control" id="input-new-password" placeholder="********">
+      <div class="invalid-feedback" id="input-new-password-feedback">
+        Your new-password is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="input-password">new password confirm</label>
+      <input type="password" class="form-control" id="input-new-password2" placeholder="********">
+      <div class="invalid-feedback" id="input-new-password-confirm-feedback">
+        Your new-password-confirm is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
       <label for="input-username">Level</label>
       <input type="text" class="form-control" id="input-level" value="<?= $user->level ?>" readonly>
     </div>
 
     <div class="mb-3">
       <label for="input-username">고유번호 (idx)</label>
-      <input type="text" class="form-control" value="<?= $user->idx ?>" readonly>
+      <input type="text" class="form-control" id="input-idx" value="<?= $user->idx ?>" readonly>
     </div>
 
     <div class="mb-3">
@@ -45,36 +61,6 @@ echo $this->template_lib->header_parse(@$header);
     <hr class="mb-4">
     <button class="btn btn-primary" type="submit">Update</button>
   </form>
-
-  <script>
-    var form = document.querySelector('.form-user');
-    form.addEventListener('submit', function (event) {
-      event.stopPropagation()
-      event.preventDefault()
-
-      var username = form.querySelector('#input-username').value
-      var password = form.querySelector('#input-password').value
-
-      axios({
-        method: 'put',
-        url: app.url.join('api/user/info'),
-        data: {
-          username: username,
-          password: password,
-        }
-      }).then(function (response) {
-        var result = response.data
-
-        switch (result.code) {
-          case 1:
-            alert('success')
-            break
-          default:
-            alert('error')
-        }
-      })
-    })
-  </script>
 <?php
 echo $template['main']['close'];
 echo $template['foot'];
