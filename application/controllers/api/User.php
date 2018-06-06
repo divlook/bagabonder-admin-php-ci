@@ -23,26 +23,38 @@ class User extends CI_Controller {
     }
     $json = $this->global_lib->get_json();
 
-    $result = array(
-      'code' => 4,
-      'msg' => 'username'
-    );
-    $username_overlap = $this->user_model->username_check($json->username) > 0;
+    $result = array('code' => 1);
 
-    if ($username_overlap === false) {
+    if (isset($json->access_token)) {
+      $auth_data = $this->auth_model->get_auth(array(
+        'user_idx' => 1,
+        'access_token' => $json->access_token,
+      ));
+      if (strtotime($this->global_lib->get_datetime()) - strtotime($auth_data->reg_date) > 60) {
+        $this->auth_model->del_auth(array(
+          'user_idx' => 1,
+        ));
+        $result['code'] = 101;
+      }
+    }
+
+    if ($result['code'] === 1 && isset($json->username) && $this->user_model->username_check($json->username) > 0) {
+      $result['code'] = 4;
+      $result['msg'] = 'username';
+    }
+
+    if ($result['code'] === 1) {
       $post_result = $this->user_model->user_post(array(
         'username' => $json->username,
         'password' => $this->global_lib->generate_password(array('password' => $json->password)),
-        'level' => $json->level,
+        'level' => $json->access_token ? 1 : 2,
       ));
-      if ($post_result) {
-        $result['code'] = 1;
-        $result['msg'] = '';
-      } else {
+      if (!$post_result) {
         $result['code'] = 0;
         $result['msg'] = 'DB 오류';
       }
     }
+
     $this->global_lib->result2json($result);
   }
 

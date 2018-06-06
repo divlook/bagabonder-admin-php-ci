@@ -43,14 +43,14 @@ class Auth_model extends CI_Model {
     return $this->db->insert('auth');
   }
 
-  /**
-   * @param array $param
-   */
   public function del_auth($param = array())
   {
-    $this->db->where('user_idx', $param['user_idx']);
-    $this->db->where('access_token', $param['access_token']);
-    $this->db->delete('auth');
+    if (!isset($param['user_idx']) && !isset($param['access_token'])) {
+      return false;
+    }
+    if (isset($param['user_idx'])) $this->db->where('user_idx', $param['user_idx']);
+    if (isset($param['access_token'])) $this->db->where('access_token', $param['access_token']);
+    return $this->db->delete('auth');
   }
 
   /**
