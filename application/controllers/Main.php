@@ -82,20 +82,6 @@ class Main extends CI_Controller {
       redirect('logout?code=100');
     }
 
-    if ($access_token) {
-      $auth_data = $this->auth_model->get_auth(array(
-        'user_idx' => 1,
-        'access_token' => $access_token,
-      ));
-      if (strtotime($this->global_lib->get_datetime()) - strtotime($auth_data->reg_date) > 10) {
-        $this->auth_model->del_auth(array(
-          'user_idx' => 1,
-          'access_token' => $access_token,
-        ));
-        redirect('/');
-      }
-    }
-
     $data = array();
     $data['layout'] = array(
       'use_nav' => false,
