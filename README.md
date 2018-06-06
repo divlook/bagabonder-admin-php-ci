@@ -153,9 +153,38 @@
   | column         | string[]                  | required | `<th>` |
   | rows           | object[]                  | required |  |
   | total          | number                    | 0        | 게시물의 총합 |
-  | add_column     | [add_column](#add-column) |          | 추가 column |
+  | col_option     | [col_option](#col_option) |          | column option |
+  | add_column     | [add_column](#add_column) |          | 추가 column |
 
-#### add_column
+##### col_option
+
+- type
+
+  | name   | type     | default  | description |
+  |--------|----------|----------|-------------|
+  | name   | string   |          | `<th>`에 들어갈 이름을 바꿔줌. 없으면 `column`명을 그대로 사용 |
+  | hidden | boolean  | FALSE    | `display: none` |
+  | align  | string   | 'center' | `text-align: center`, enum(left, right) |
+  | render | callback |          | [add_column](#add_column)에서 사용하는 옵션. |
+  
+- Example
+
+  ```php
+  <?php
+  $col_option = array(
+    'idx' => array(
+      'hidden' => TRUE,
+    ),
+    'reg_date' => array(
+      'name' => '가입일',
+    ),
+    'up_date' => array(
+      'hidden' => TRUE,
+    ),
+  );
+  ```
+
+##### add_column
 
   ```php
   <?php
