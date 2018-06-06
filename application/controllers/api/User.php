@@ -95,6 +95,9 @@ class User extends CI_Controller {
     $json = $this->global_lib->get_json();
     $result = array('code' => 1);
     $put_param = array('idx' => $json->idx);
+    $auth_data = $this->user_model->get_user_data(array(
+      'idx' => $this->auth['data']->user_idx,
+    ));
     $user_data = (object) array();
 
     if (!isset($json->idx)) {
@@ -103,16 +106,20 @@ class User extends CI_Controller {
     }
 
     if ($result['code'] === 1) {
-      $user_data = $this->user_model->get_user_data(array(
-        'idx' => $json->idx,
-      ));
-      if (!$user_data) {
-        $result['code'] = 5;
-        $result['msg'] = 'user';
+      if ($auth_data->idx == $json->idx) {
+        $user_data = $auth_data;
+      } else {
+        $user_data = $this->user_model->get_user_data(array(
+          'idx' => $json->idx,
+        ));
+        if (!$user_data) {
+          $result['code'] = 5;
+          $result['msg'] = 'user';
+        }
       }
     }
 
-    if ($result['code'] === 1 && $user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
+    if ($result['code'] === 1 && $auth_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
       $result['code'] = 3;
       $result['msg'] = 'password';
     }
