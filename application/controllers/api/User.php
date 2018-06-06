@@ -86,6 +86,47 @@ class User extends CI_Controller {
     $this->global_lib->result2json($result);
   }
 
+  public function info()
+  {
+    if ($this->input->method(TRUE) === 'GET') {
+      show_404();
+      return;
+    }
+    $json = $this->global_lib->get_json();
+
+    $result = array('code' => 1);
+
+    $user_data = $this->user_model->get_user_data(array(
+      'idx' => $json->idx,
+    ));
+
+    $put_param = array('idx' => $user_data->idx);
+
+    if ($user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
+      $result['code'] = 3;
+      $result['msg'] = 'password';
+    }
+
+    if ($result['code'] === 1 && ($user_data->username != $json->username)) {
+      $username_overlap = $this->user_model->username_check($json->username) > 0;
+      if ($username_overlap) {
+        $result['code'] = 4;
+        $result['msg'] = 'username';
+      }
+      $put_param['username'] = $user_data->username;
+    }
+
+    if ($result['code'] === 1) {
+      $put_result = $this->user_model->put_user_data($put_param);
+      if (!$put_result) {
+        $result['code'] = 0;
+        $result['msg'] = 'DB 오류';
+      }
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
   public function _private_method()
   {
     echo 'hidden';
