@@ -143,16 +143,41 @@
 
 ### Table Template
 
-- Type
+#### Type
 
-  | name           | type     | default  | description                |
-  |:---------------|:--------:|:--------:|:---------------------------|
-  | page           | number   | 1        | 현재 페이지 번호. controller에 `GET`으로 전달받음. |
-  | use_pagination | boolean  | true     | 페이지네이션 사용여부 |
-  | limit          | number   | 20       | 현재 페이지에 출력할 게시물의 수 |
-  | column         | string[] | required | `<th>` |
-  | rows           | object[] | required |  |
-  | total          | number   | 0        | 게시물의 총합 |
+  | name           | type                      | default  | description                |
+  |:---------------|:-------------------------:|:--------:|:---------------------------|
+  | page           | number                    | 1        | 현재 페이지 번호. controller에 `GET`으로 전달받음. |
+  | use_pagination | boolean                   | true     | 페이지네이션 사용여부 |
+  | limit          | number                    | 20       | 현재 페이지에 출력할 게시물의 수 |
+  | column         | string[]                  | required | `<th>` |
+  | rows           | object[]                  | required |  |
+  | total          | number                    | 0        | 게시물의 총합 |
+  | add_column     | [add_column](#add-column) |          | 추가 column |
+
+#### add_column
+
+  ```php
+  <?php
+  $add_column = array(
+    'etc' => array(
+    'name' => '기타',
+    'align' => 'center',
+    'render' => function ($row = array()) {
+      return '
+        <div class="btn-group mr-2">
+          <button class="btn btn-sm btn-outline-secondary" data-idx="' . $row->idx . '">Share</button>
+          <button class="btn btn-sm btn-outline-secondary" data-idx="' . $row->idx . '">Export</button>
+        </div>
+      ';
+    },
+    ),
+  );
+  
+  $this->template_lib->table_parse(@$table_data, $add_column);
+  ```
+
+#### Example
 
 - controllers/Etc.php
 

@@ -93,13 +93,19 @@ class Template_lib {
       $param['rows'] = array();
     if (!isset($param['total']))
       $param['total'] = count($param['rows']);
-    $param['offset'] = ($param['page'] - 1) * $param['limit'];
+    if(!isset($param['offset']))
+      $param['offset'] = ($param['page'] - 1) * $param['limit'];
+    if(!isset($param['col_option']))
+      $param['col_option'] = array();
+    if(!isset($param['add_column']))
+      $param['add_column'] = array();
     return $param;
   }
 
-  public function table_parse($param = array())
+  public function table_parse($param = array(), $add_column = array())
   {
     $data = $this->table_validation($param);
+    $data['add_column'] = array_merge($data['add_column'], $add_column);
     return $this->CI->load->view('template/main/table', $data, true);
   }
 
