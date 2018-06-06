@@ -69,4 +69,15 @@ class User_model extends CI_Model {
 
     return $param;
   }
+
+  public function put_user_data($param = array())
+  {
+    $this->db->from('user');
+    if (isset($param['username'])) $this->db->set('username', $param['username']);
+    if (isset($param['password'])) $this->db->set('password', $param['password']);
+    if (isset($param['level'])) $this->db->set('level', $param['level']);
+    $this->db->set('up_date', $this->global_lib->get_datetime());
+    $this->db->where('idx', $param['idx']);
+    return $this->db->update();
+  }
 }
