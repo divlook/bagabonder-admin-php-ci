@@ -42,7 +42,7 @@ class Template_lib {
       }
 
       $layout[$has_asset] = $matches != null;
-      $layout[$asset_name] = $layout[$has_asset] ? str_replace('/\//g','_',$matches[0]) : null;
+      $layout[$asset_name] = $layout[$has_asset] ? str_replace('/','_',$matches[0]) : null;
     }
 
     return $layout;
