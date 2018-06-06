@@ -137,6 +137,20 @@ class User extends CI_Controller {
       $put_param['password'] = $this->global_lib->generate_password(array('password' => $json->new_password));
     }
 
+    if (
+      $result['code'] === 1 &&
+      isset($json->level) &&
+      isset($json->auth_idx) &&
+      $json->auth_idx == $auth_data->idx &&
+      $json->idx != $auth_data->idx &&
+      $auth_data->level == 1
+    ) {
+      switch ($json->level) {
+        case 1: $put_param['level'] = 1; break;
+        default: $put_param['level'] = 2; break;
+      }
+    }
+
     if ($result['code'] === 1) {
       $put_result = $this->user_model->put_user_data($put_param);
       if (!$put_result) {

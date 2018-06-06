@@ -3,7 +3,9 @@
 
   var form = document.querySelector('.form-user');
   var inputs = form.querySelectorAll('input');
+
   var idx = form.querySelector('#input-idx')
+  var auth_idx = form.querySelector('#input-auth-idx')
 
   var username = form.querySelector('#input-username')
   var username_feedback = form.querySelector('#input-username-feedback')
@@ -16,6 +18,8 @@
 
   var new_password_confirm = form.querySelector('#input-new-password-confirm')
   var new_password_feedback_confirm = form.querySelector('#input-new-password-confirm-feedback')
+
+  var level = form.querySelector('#input-level')
 
 
   var keydown_callback = function (event) {
@@ -65,9 +69,16 @@
       idx: idx.value,
       username: username.value,
       password: password.value,
+      auth_idx: auth_idx.value,
+      level: level.value,
     }
 
-    if (!password.value || !idx.value) {
+    if (!idx.value) {
+      return false
+    }
+
+    if (!password.value) {
+      password.focus()
       return false
     }
     if (new_password.value) {

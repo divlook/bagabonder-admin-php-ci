@@ -6,6 +6,7 @@ echo $template['main']['open'];
 echo $this->template_lib->header_parse(@$header);
 ?>
   <form class="needs-validation form-user" novalidate>
+    <input type="hidden" id="input-auth-idx" value="<?= $auth_idx ?>">
     <div class="mb-3">
       <label for="input-username">Username</label>
       <input type="text" class="form-control" id="input-username" placeholder="Username" autocomplete="off" value="<?= $user->username ?>" required>
@@ -40,22 +41,25 @@ echo $this->template_lib->header_parse(@$header);
 
     <div class="mb-3">
       <label for="input-username">Level</label>
-      <input type="text" class="form-control" id="input-level" value="<?= $user->level ?>" readonly>
+      <select class="form-control" id="input-level"<?= $auth_idx && $auth_idx != $user->idx ? '' : ' disabled' ?>>
+        <option value="1"<?= $user->level == 1 ? ' selected' : '' ?>>1</option>
+        <option value="2"<?= $user->level == 2 ? ' selected' : '' ?>>2</option>
+      </select>
     </div>
 
     <div class="mb-3">
       <label for="input-username">고유번호 (idx)</label>
-      <input type="text" class="form-control" id="input-idx" value="<?= $user->idx ?>" readonly>
+      <input type="text" class="form-control" id="input-idx" value="<?= $user->idx ?>" disabled>
     </div>
 
     <div class="mb-3">
       <label for="input-username">가입일</label>
-      <input type="text" class="form-control" value="<?= $user->reg_date ?>" readonly>
+      <input type="text" class="form-control" value="<?= $user->reg_date ?>" disabled>
     </div>
 
     <div class="mb-3">
       <label for="input-username">최근 접속일</label>
-      <input type="text" class="form-control" value="<?= $user->up_date ?>" readonly>
+      <input type="text" class="form-control" value="<?= $user->up_date ?>" disabled>
     </div>
 
     <hr class="mb-4">

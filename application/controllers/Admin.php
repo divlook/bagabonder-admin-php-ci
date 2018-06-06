@@ -58,13 +58,14 @@ class Admin extends CI_Controller {
   public function info()
   {
     $idx = $this->input->get('idx');
-    $user_data = $this->user_model->get_user_data(array(
+    $auth_data = $this->user_model->get_user_data(array(
       'idx' => $this->auth['data']->user_idx,
     ));
-    unset($user_data->password);
+    unset($auth_data->password);
+    $user_data = $auth_data;
 
     if ($idx) {
-      if ($user_data->level != 1) {
+      if ($auth_data->level != 1) {
         redirect('logout?code=100');
         return;
       }
@@ -78,6 +79,7 @@ class Admin extends CI_Controller {
       'header' => array(
         'title' => '관리자 정보',
       ),
+      'auth_idx' => $auth_data->level == 1 ? $auth_data->idx : '',
       'user' => $user_data,
     );
 
