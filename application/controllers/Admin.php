@@ -55,4 +55,21 @@ class Admin extends CI_Controller {
     $this->load->view('admin/users', $data);
   }
 
+  public function info($mode = '')
+  {
+    $user_data = $this->user_model->get_user_data(array(
+      'idx' => $this->auth['data']->user_idx,
+    ));
+    unset($user_data->password);
+
+    $data = array(
+      'header' => array(
+        'title' => '관리자 정보',
+      ),
+      'user' => $user_data,
+    );
+
+    $this->load->view('admin/info', $data);
+  }
+
 }
