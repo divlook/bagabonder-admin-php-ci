@@ -82,11 +82,10 @@
 
       switch (result.code) {
         case 1:
-          location.href = return_url.value ? return_url.value : '/'
+          location.href = return_url.value ? app.url.join(return_url.value) : app.url.join('/')
           break
         default:
           alert(result.msg || 'error')
-          location.href = '/'
           break
       }
     })
