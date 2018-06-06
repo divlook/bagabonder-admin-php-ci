@@ -80,6 +80,7 @@
 	 ***************** YOUR MODELS *****************
 	 * @property Auth_model          $auth_model
 	 * @property User_model          $user_model
+	 * @property Migration_model     $migration_model
 	 * @property Detail_info_model   $detail_info_model
 	 */
 	class CI_Controller {
