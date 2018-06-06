@@ -10,7 +10,7 @@ class Etc extends CI_Controller {
 		parent::__construct();
     $this->auth = $this->global_lib->authenticate();
     if ($this->auth['code'] !== 1) {
-      redirect('logout?code='. $this->auth['code']);
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
     }
 	}
 

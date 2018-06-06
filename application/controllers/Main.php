@@ -17,14 +17,14 @@ class Main extends CI_Controller {
     if ($this->auth['code'] === 1) {
       redirect('dashboard');
     } else {
-      redirect('logout?code='. $this->auth['code']);
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
     }
 	}
 
   public function dashboard()
   {
     if ($this->auth['code'] !== 1) {
-      redirect('logout?code='. $this->auth['code']);
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
     }
 
     $data = array(
@@ -44,11 +44,13 @@ class Main extends CI_Controller {
       'use_sidebar' => false,
       'use_icon' => false,
     );
+    $data['return_url'] = $this->input->get('return_url');
     $this->load->view('login', $data);
   }
 
   public function logout()
   {
+    $return_url = $this->input->get('return_url');
     $code = $this->input->get('code');
     $redirect_url = 'login';
     $query_string = '';
@@ -65,6 +67,11 @@ class Main extends CI_Controller {
     if ($code) {
       if ($query_string) $query_string .= '&';
       $query_string .= 'code='. $code;
+    }
+
+    if ($return_url) {
+      if ($query_string) $query_string .= '&';
+      $query_string .= 'return_url='.$return_url;
     }
 
     if ($query_string) {
