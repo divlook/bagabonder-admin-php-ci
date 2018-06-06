@@ -55,12 +55,23 @@ class Admin extends CI_Controller {
     $this->load->view('admin/users', $data);
   }
 
-  public function info($mode = '')
+  public function info($idx = '')
   {
     $user_data = $this->user_model->get_user_data(array(
       'idx' => $this->auth['data']->user_idx,
     ));
     unset($user_data->password);
+
+    if ($idx) {
+      if ($user_data->level != 1) {
+        redirect('logout?code=100');
+        return;
+      }
+      $user_data = $this->user_model->get_user_data(array(
+        'idx' => $idx,
+      ));
+      unset($user_data->password);
+    }
 
     $data = array(
       'header' => array(
