@@ -19,6 +19,10 @@
     if (this.dataset.event === 'delete') {
       method = 'delete'
       url = 'api/user/delete/' + this.dataset.idx
+
+      if (!confirm('삭제한 계정은 복구할 수 없습니다. 삭제하시겠습니까?')) {
+        return
+      }
     }
 
     axios({
