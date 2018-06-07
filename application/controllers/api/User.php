@@ -196,6 +196,64 @@ class User extends CI_Controller {
     $this->global_lib->result2json($result);
   }
 
+  public function ban ($idx)
+  {
+    $ban = NULL;
+
+    $result = array('code' => 1);
+
+    $method = $this->input->method(TRUE);
+
+    if ($method === 'GET') {
+      $result['code'] = 3;
+      $result['msg'] = 'method';
+    } else if ($method ==='POST') {
+      $ban = TRUE;
+    } else if ($method ==='DELETE') {
+      $ban = FALSE;
+    }
+
+    if (!isset($idx)) {
+      $result['code'] = 2;
+      $result['msg'] = 'idx';
+    }
+
+    if ($result['code'] === 1) {
+      $this->user_model->put_user_data(array(
+        'idx' => $idx,
+        'ban' => $ban,
+      ));
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
+  public function delete ($idx)
+  {
+    $result = array('code' => 1);
+
+    $method = $this->input->method(TRUE);
+
+    if ($method !== 'DELETE') {
+      $result['code'] = 3;
+      $result['msg'] = 'method';
+    }
+
+    if (!isset($idx)) {
+      $result['code'] = 2;
+      $result['msg'] = 'idx';
+    }
+
+    if ($result['code'] === 1) {
+      $this->user_model->delete_user_data(array(
+        'idx' => $idx,
+      ));
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
+
   public function _private_method()
   {
     echo 'hidden';

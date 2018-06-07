@@ -55,13 +55,11 @@ class User_model extends CI_Model {
   {
     $table = 'user';
     $param['column'] = $this->db->list_fields($table);
-    $param['column'] = array_values(array_diff($param['column'], array('password', 'del_date')));
+    $param['column'] = array_values(array_diff($param['column'], array('password')));
 
-    $this->db->where('del_date', NULL);
     $param['total'] = $this->db->count_all_results($table);
 
     $this->db->select(implode(',', $param['column']));
-    $this->db->where('del_date', NULL);
     $this->db->limit($param['limit']);
     $this->db->offset($param['offset']);
     $this->db->order_by('idx', 'desc');
@@ -76,8 +74,17 @@ class User_model extends CI_Model {
     if (isset($param['username'])) $this->db->set('username', $param['username']);
     if (isset($param['password'])) $this->db->set('password', $param['password']);
     if (isset($param['level'])) $this->db->set('level', $param['level']);
+    if (isset($param['ban']))
+      $this->db->set('del_date', $param['ban'] ? $this->global_lib->get_datetime() : NULL);
     $this->db->set('up_date', $this->global_lib->get_datetime());
     $this->db->where('idx', $param['idx']);
     return $this->db->update();
+  }
+
+  public function delete_user_data($param = array())
+  {
+    $this->db->from('user');
+    $this->db->where('idx', $param['idx']);
+    return $this->db->delete();
   }
 }

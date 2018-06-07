@@ -37,10 +37,13 @@ class Admin extends CI_Controller {
         'hidden' => TRUE,
       ),
       'reg_date' => array(
-        'name' => '가입일',
+        'name' => '가입한 날짜',
       ),
       'up_date' => array(
-        'name' => '최근 접속일',
+        'name' => '최근 접속한 날짜',
+      ),
+      'del_date' => array(
+        'name' => '정지된 날짜',
       ),
     );
 
