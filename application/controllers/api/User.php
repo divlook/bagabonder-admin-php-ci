@@ -79,6 +79,14 @@ class User extends CI_Controller {
       $result['msg'] = 'username';
     }
 
+    if ($result['code'] === 1 && $user_data->del_date) {
+      $result['code'] = 6;
+      $result['msg'] = 'account';
+      $result['data'] = (object) array(
+        'del_date' => $user_data->del_date,
+      );
+    }
+
     if ($result['code'] === 1 && $user_data->password !== $this->global_lib->generate_password(array('password' => $json->password))) {
       $result['code'] = 3;
       $result['msg'] = 'password';

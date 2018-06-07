@@ -15,21 +15,29 @@
       password: password.value,
     }).then(function (response) {
       var result = response.data
+      var msg = ''
 
       switch (result.code) {
         case 1:
           location.href = return_url.value ? app.url.join(return_url.value) : app.url.join('dashboard')
           break
         case 3:
-          alert('password 틀림')
+          alert('password가 틀렸습니다.')
           password.focus()
           break
         case 5:
-          alert('username이 없음')
+          alert('등록되지 않은 username입니다.')
           username.focus()
           break
+        case 6:
+          msg = '계정이 정지되었습니다.'
+          if (result.data.del_date) {
+            msg = msg + ' (' + result.data.del_date + ')'
+          }
+          alert(msg)
+          break
         default:
-          alert('error')
+          alert(result.msg || 'error')
           break
       }
     })
