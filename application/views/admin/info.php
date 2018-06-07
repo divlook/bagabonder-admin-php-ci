@@ -53,17 +53,35 @@ echo $this->template_lib->header_parse(@$header);
     </div>
 
     <div class="mb-3">
-      <label for="input-username">가입일</label>
+      <label for="input-username">가입한 날짜</label>
       <input type="text" class="form-control" value="<?= $user->reg_date ?>" disabled>
     </div>
 
     <div class="mb-3">
-      <label for="input-username">최근 접속일</label>
+      <label for="input-username">최근 접속한 날짜</label>
       <input type="text" class="form-control" value="<?= $user->up_date ?>" disabled>
     </div>
 
+    <div class="mb-3">
+      <label for="input-username">정지된 날짜</label>
+      <input type="text" class="form-control" value="<?= $user->del_date ?>" disabled>
+    </div>
+
     <hr class="mb-4">
-    <button class="btn btn-primary" type="submit">Update</button>
+    <button class="btn btn-primary" type="submit">
+      <span data-feather="edit-2">수정</span>
+      Update
+    </button>
+    <?php if ($auth_idx) { ?>
+      <button class="btn btn-action btn-dark" type="button" data-event="ban" data-method="<?= $user->del_date ? 'delete' : 'post' ?>" data-idx="<?= $user->idx ?>">
+        <span data-feather="<?= $user->del_date ? 'unlock' : 'lock' ?>">정지</span>
+        <?= $user->del_date ? 'Unban' : 'Ban' ?>
+      </button>
+    <?php } ?>
+    <button class="btn btn-action btn-danger" type="button" data-event="delete" data-idx="<?= $user->idx ?>">
+      <span data-feather="trash">삭제</span>
+      Delete Account
+    </button>
   </form>
 <?php
 echo $template['main']['close'];
