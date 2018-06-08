@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php foreach ($this->config->config['sidemenu'] as $key => $row) {
           $parent_uri_string = uri_string();
           if (isset($row['child'])) {
-            $child_uri_string = $parent_uri_string;
+            $child_uri_string = $this->uri->segment(1) . '/' . $this->uri->segment(2);
             $parent_uri_string = $this->uri->segment(1);
           }
           ?>
