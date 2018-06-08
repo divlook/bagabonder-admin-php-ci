@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </li>
     <?php } ?>
 
-    <li class="page-item <?= $page == $page_max ? 'disabled' : '' ?>">
+    <li class="page-item <?= $page == $page_max || $limit >= $total ? 'disabled' : '' ?>">
       <a class="page-link" href="<?= $this->template_lib->pagination_link(array('page' => $page + 1)) ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
