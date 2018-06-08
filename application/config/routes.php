@@ -76,4 +76,4 @@ $route['api/user/ban/(:idx)']['post'] = 'api/user/ban/$1';
 */
 
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = TRUE;

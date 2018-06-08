@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Etc extends CI_Controller {
+class Shop extends CI_Controller {
 
   private $auth;
 
@@ -16,10 +16,10 @@ class Etc extends CI_Controller {
 
   public function index()
   {
-    redirect('etc/example','auto', 301);
+    redirect('shop/detail-info','auto', 301);
   }
 
-  public function example()
+  public function detail_info()
   {
     // fake option
     $page = $this->input->get('page') ? $this->input->get('page') : 1;
@@ -29,7 +29,7 @@ class Etc extends CI_Controller {
 
     $data = array(
       'header' => array(
-        'title' => 'Example Page'
+        'title' => 'Detail Info'
       ),
       'data' => array(
         'column' => array('A', 'B', 'C'),
@@ -52,7 +52,7 @@ class Etc extends CI_Controller {
       );
     }
 
-    $this->load->view('etc_page_example', $data);
+    $this->load->view('shop/detail-info-list', $data);
   }
 
 }

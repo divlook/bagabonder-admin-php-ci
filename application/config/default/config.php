@@ -25,7 +25,25 @@ $config['sidemenu'] = array(
   ),
   array(
     'name' => 'etc',
-    'icon' => 'layers',
     'path' => 'etc',
+    'child' => array(
+      array(
+        'name' => 'Example Page',
+        'icon' => 'file',
+        'path' => 'example',
+      ),
+    ),
+  ),
+  array(
+    'name' => 'Shop',
+    'icon' => 'layers',
+    'path' => 'shop',
+    'child' => array(
+      array(
+        'name' => 'Detail Info',
+        'icon' => 'layers',
+        'path' => 'detail-info',
+      ),
+    ),
   ),
 );
