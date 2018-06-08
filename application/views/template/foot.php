@@ -13,10 +13,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <?php } ?>
 
-    <?php if ($layout['use_vue']) { ?>
-      <script src="<?php echo base_url(); ?>assets/js/vue.min.js"></script>
-    <?php } ?>
-
     <script src="<?php echo base_url(); ?>assets/js/axios.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
 

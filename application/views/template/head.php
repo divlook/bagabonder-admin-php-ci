@@ -27,6 +27,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       base_url: '<?php echo base_url(); ?>'
     }
   </script>
+
+  <?php if ($layout['use_vue']) { ?>
+    <script src="<?php echo base_url(); ?>assets/js/vue.min.js"></script>
+  <?php } ?>
 </head>
 
 <body class="<?= $layout['use_full'] === true ? 'text-center' : '' ?>">
