@@ -27,6 +27,9 @@ class Template_lib {
     if (!isset($layout['use_full']))
       $layout['use_full'] = false;
 
+    if (!isset($layout['use_vue']))
+      $layout['use_vue'] = false;
+
     if (!isset($layout['use_icon']))
       $layout['use_icon'] = true;
 

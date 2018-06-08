@@ -13,11 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <?php } ?>
 
-    <?php if ($layout['use_icon'] === true) { ?>
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
+    <?php if ($layout['use_vue']) { ?>
+      <script src="<?php echo base_url(); ?>assets/js/vue.min.js"></script>
     <?php } ?>
 
     <script src="<?php echo base_url(); ?>assets/js/axios.min.js"></script>
@@ -33,6 +30,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <?php if ($layout['has_js'] === true) { ?>
     <script src="<?php echo base_url(); ?>assets/js/app_<?= $layout['js_name'] ?>.js"></script>
+    <?php } ?>
+
+    <?php if ($layout['use_icon'] === true) { ?>
+      <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+      <script>
+        feather.replace()
+      </script>
     <?php } ?>
 
   </body>

@@ -41,7 +41,7 @@
   
 ### Sidemenu
 
-  사이드 메뉴를 관리합니다. `index.php` 파일에서 `sidemenu`를 검색하세요.
+  사이드 메뉴를 관리합니다. `application/config/{SECOND_CONFIG}/config.php` 파일에서 `sidemenu`를 검색하세요.
   
   - Example
   
@@ -103,6 +103,7 @@
   | use_full    | boolean | false   | 레이아웃 사용 안할 때 가운데 정렬 |
   | use_sidebar | boolean | true    | sidebar 사용여부             |
   | use_icon    | boolean | true    | icon 사용여부                |
+  | use_vue     | boolean | false   | vuejs 사용여부               |
 
 ### Example
 
