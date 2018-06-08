@@ -12,6 +12,7 @@ class Shop extends CI_Controller {
     if ($this->auth['code'] !== 1) {
       redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
     }
+    $this->load->model('detail_info_model');
 	}
 
   public function index()
@@ -21,36 +22,43 @@ class Shop extends CI_Controller {
 
   public function detail_info()
   {
-    // fake option
-    $page = $this->input->get('page') ? $this->input->get('page') : 1;
-    $limit = 20;
-    $offset = ($page - 1) * $limit;
-    $total = 231;
+    $list_param = $this->global_lib->get_list_param(array(
+      'page' => $this->input->get('page'),
+    ));
+
+    $table_data = $this->detail_info_model->get_detail_info_list($list_param);
+    $table_data['col_option'] = array(
+      'idx' => array(
+        'hidden' => TRUE,
+      ),
+      'category' => array(
+        'name' => '옷의 분류',
+      ),
+      'input_use' => array(
+        'name' => '명칭 수',
+      ),
+      'rows_use' => array(
+        'name' => '사이즈 수',
+      ),
+      'reg_date' => array(
+        'name' => '등록한 날짜',
+      ),
+      'up_date' => array(
+        'name' => '수정한 날짜',
+      ),
+      'del_date' => array(
+        'name' => '삭제한 날짜',
+      ),
+    );
+
+//    var_dump($table_data);exit;
 
     $data = array(
       'header' => array(
         'title' => 'Detail Info'
       ),
-      'data' => array(
-        'column' => array('A', 'B', 'C'),
-        'rows' => array(),
-        'total' => $total,
-        'limit' => $limit,
-        'use_pagination' => true,
-        'pagination_align' => 'center',
-      ),
+      'data' => $table_data,
     );
-
-    // fake rows
-    for ($i=0;$i<$limit;$i++) {
-      $idx = $total - $offset - $i;
-      if ($idx === 0) continue;
-      $data['data']['rows'][] = (object) array(
-        'A' => 'a' . $idx,
-        'B' => 'b' . $idx,
-        'C' => 'c' . $idx,
-      );
-    }
 
     $this->load->view('shop/detail-info-list', $data);
   }
