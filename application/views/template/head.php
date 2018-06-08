@@ -29,7 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </script>
 
   <?php if ($layout['use_vue']) { ?>
-    <script src="<?php echo base_url(); ?>assets/js/vue.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/js/vue<?= ENVIRONMENT == 'production' ? '.min' : '' ?>.js"></script>
   <?php } ?>
 </head>
 
