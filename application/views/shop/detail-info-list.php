@@ -7,7 +7,7 @@ echo $template['main']['open'];
   <?= $this->template_lib->header_parse(@$header) ?>
   <div class="btn-toolbar mb-2 pt-2 pb-2">
     <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary">옷의 분류 추가하기</button>
+      <a class="btn btn-sm btn-outline-secondary" href="detail-info/add">옷의 분류 추가하기</a>
     </div>
   </div>
   <?= $this->template_lib->table_parse(@$data) ?>
