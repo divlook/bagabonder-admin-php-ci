@@ -22,4 +22,48 @@ class Detail_info_model extends CI_Model {
     return $param;
   }
 
+  public function category_overlap_check($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    $query = $this->db->get('detail_info_index');
+    return $query->num_rows() > 0;
+
+  }
+
+  public function post_index($param = array())
+  {
+    $data = array(
+      'category' => $param['category'],
+      'input_use' => $param['input_use'],
+      'rows_use' => $param['rows_use'],
+      'reg_date' => $this->global_lib->get_datetime(),
+    );
+
+    return $this->db->insert('detail_info_index', $data);
+  }
+
+  public function post_column($param = array())
+  {
+    $param['reg_date'] = $this->global_lib->get_datetime();
+    return $this->db->insert('detail_info_column', $param);
+  }
+
+  public function post_rowname($param = array())
+  {
+    $param['reg_date'] = $this->global_lib->get_datetime();
+    return $this->db->insert('detail_info_rowname', $param);
+  }
+
+  public function post_size($param = array())
+  {
+    $param['reg_date'] = $this->global_lib->get_datetime();
+    return $this->db->insert('detail_info_size', $param);
+  }
+
+  public function post_style($param = array())
+  {
+    $param['reg_date'] = $this->global_lib->get_datetime();
+    return $this->db->insert('detail_info_style', $param);
+  }
+
 }
