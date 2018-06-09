@@ -53,8 +53,8 @@
             description: '',
           },
           {
-            id: 'area-image',
-            name: 'Image',
+            id: 'area-preview',
+            name: 'Preview',
             description: '',
           },
         ]
@@ -87,9 +87,13 @@
         rowname: this.generate_input(10, 'rows'),
         size: this.generate_input(10, 'rows', this.generate_input(10, 'input')),
         style: this.generate_input(10, 'input', { top: 0, left: 0, display: 'block' }),
+        image: '',
         reg_date: '',
         up_date: '',
         del_date: '',
+        preview: {
+          rowname: 'rows1',
+        }
       }
     },
     computed: {
@@ -131,8 +135,48 @@
         this.$set(obj, key, this.upper(obj[key]))
       },
       submit: function () {
-        console.log('submit')
+        axios({
+          method: 'post',
+          url: app.url.join('api/shop/detail-info'),
+          data: {
+            category: this.category,
+            input_use: this.input_use,
+            rows_use: this.rows_use,
+            column: this.column,
+            rowname: this.rowname,
+            size: this.size,
+            style: this.style,
+            image: this.image,
+          },
+        }).then(function (response) {
+          var result = response.data
+          console.log(result)
+        })
       },
+      preview_file: function () {
+        var that = this
+        var preview = this.$refs.preview
+        var file    = this.$refs.file.files[0]
+        var reader  = new FileReader()
+
+        if (!/image\/(jpe?g|png|gif)/.test(file.type)) {
+          this.remove_file()
+        }
+
+        reader.addEventListener("load", function () {
+          preview.src = reader.result
+          that.$set(that, 'image', reader.result)
+        }, false)
+
+        if (file) {
+          reader.readAsDataURL(file)
+        }
+      },
+      remove_file: function () {
+        this.$refs.preview.src = 'http://via.placeholder.com/400x400/ffffff'
+        this.$refs.file.value = ''
+        this.$set(this, 'image', '')
+      }
     }
   })
 })()

@@ -6,6 +6,64 @@ echo $template['main']['open'];
 ?>
   <?= $this->template_lib->header_parse(@$header) ?>
 
+  <style>
+    .contents-input-area {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .contents-input-area p {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .contents-input-area .contents-input-active p {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .contents-input-area .contents-input-static {
+      position: absolute;
+      left: 0;
+      bottom: 30px;
+      text-align: center;
+      width: 100%;
+      line-height: 30px;
+    }
+
+    .contents-input-area .contents-input-static p {
+      display: inline;
+      padding: 0 5px;
+    }
+
+    .contents-btn-area {
+      overflow: hidden;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .contents-btn-area button {
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      background-color: #fff;
+      color: #000;
+      float: left;
+      outline: none;
+      border: 0;
+      letter-spacing: -2px;
+    }
+
+    .contents-btn-area button.active {
+      background-color: #000;
+      color: #fff;
+    }
+  </style>
+
   <script type="text/x-template" id="detail-info-nav">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -28,7 +86,7 @@ echo $template['main']['open'];
   </script>
 
   <div id="detail-info-form">
-    <form @submit.prevent="submit" class="needs-validation was-validated mb-5" novalidate>
+    <form @submit.prevent="submit" class="needs-validation was-validated mb-5">
 
       <detail-info-area id="area-default">
         <div class="mb-3">
@@ -125,13 +183,13 @@ echo $template['main']['open'];
                 <div class="input-group-prepend">
                   <label class="input-group-text">top</label>
                 </div>
-                <input type="text" class="form-control" v-model="style['input' + key].top" required>
+                <input type="number" class="form-control" v-model.number="style['input' + key].top" required>
               </div>
               <div class="input-group mb-2 mr-2">
                 <div class="input-group-prepend">
                   <label class="input-group-text">left</label>
                 </div>
-                <input type="text" class="form-control" v-model="style['input' + key].left" required>
+                <input type="number" class="form-control" v-model.number="style['input' + key].left" required>
               </div>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -147,8 +205,55 @@ echo $template['main']['open'];
         </template>
       </detail-info-area>
 
-      <detail-info-area id="area-image" v-if="input_use > 0">
-        <img src="http://via.placeholder.com/400x400">
+      <detail-info-area id="area-preview">
+        <div class="mb-3 form-inline align-items-baseline">
+          <div class="input-group mb-2 mr-2">
+            <input ref="file" type="file" class="form-control" @change="preview_file" accept="image/*" required>
+            <div class="valid-feedback">
+              Good.
+            </div>
+            <div class="invalid-feedback">
+              이미지 파일이 필요합니다. 가로 400px 세로 400px
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <button type="button" class="btn btn-danger" @click="remove_file">삭제</button>
+          </div>
+        </div>
+
+        <div class="mb-3 position-relative" style="max-width: 400px">
+          <img ref="preview" :src="image || 'http://via.placeholder.com/400x400/ffffff'" style="max-height: 400px;max-width: 400px;border: 1px solid rgba(0,0,0,.1)">
+
+          <div class="contents-input-area">
+            <div class="contents-input-active">
+              <template v-for="key in 10" v-if="input_use >= key">
+                <p :key="key" :style="{
+                  top: (style['input' + key].top || (key - 1) * 16) + 'px',
+                  left: style['input' + key].left + 'px',
+                  display: style['input' + key].display || 'block',
+                }">
+                  {{size[preview.rowname]['input' + key]}}
+                </p>
+              </template>
+            </div>
+
+            <div class="contents-input-static">
+              <template v-for="key in 10" v-if="input_use >= key">
+                <p :key="key">
+                  {{column['input' + key] || 'input-' + key}} {{size[preview.rowname]['input' + key]}}
+                </p>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="contents-btn-area">
+            <template v-for="key in 10" v-if="rows_use >= key">
+              <button type="button" :class="{ active: 'rows' + key == preview.rowname }" @click="preview.rowname = 'rows' + key" :key>{{rowname['rows' + key] || 'row-' + key}}</button>
+            </template>
+          </div>
+        </div>
       </detail-info-area>
 
       <template v-if="reg_date || up_date || del_date">
