@@ -8,7 +8,6 @@ class Main extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-    $this->auth = $this->global_lib->authenticate();
 	}
 
 	public function index()
@@ -23,6 +22,7 @@ class Main extends CI_Controller {
 
   public function dashboard()
   {
+    $this->auth = $this->global_lib->authenticate();
     if ($this->auth['code'] !== 1) {
       redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
     }
@@ -83,6 +83,7 @@ class Main extends CI_Controller {
 
   public function join()
   {
+    $this->auth = $this->global_lib->authenticate();
     $access_token = $this->input->get('access_token');
 
     if ($this->auth['code'] !== 1 && !$access_token) {
