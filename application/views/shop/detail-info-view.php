@@ -19,7 +19,7 @@ echo $template['main']['open'];
 
   <script type="text/x-template" id="detail-info-area">
     <div :id="id">
-      <detail-info-nav :current="id"></detail-info-nav>
+      <detail-info-nav :current="id" :nav="nav"></detail-info-nav>
       <h4>{{name}}</h4>
       <p>{{description}}</p>
       <slot></slot>
@@ -30,7 +30,7 @@ echo $template['main']['open'];
   <div id="detail-info-form">
     <form @submit.prevent="submit" class="needs-validation was-validated mb-5" novalidate>
 
-      <detail-info-area id="area-default" name="기본정보" description="">
+      <detail-info-area id="area-default">
         <div class="mb-3">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -72,7 +72,7 @@ echo $template['main']['open'];
         </div>
       </detail-info-area>
 
-      <detail-info-area id="area-column" name="명칭 이름" description="예) input-1 = 총장, input-2 = 어깨" v-if="input_use > 0">
+      <detail-info-area id="area-column" v-if="input_use > 0">
         <template v-for="key in 10" v-if="input_use >= key">
           <div class="mb-3" :key="key">
             <div class="input-group">
@@ -85,7 +85,7 @@ echo $template['main']['open'];
         </template>
       </detail-info-area>
 
-      <detail-info-area id="area-rowname" name="사이즈 이름" description="예) rows-1 = S, rows-2 = M" v-if="rows_use > 0">
+      <detail-info-area id="area-rowname" v-if="rows_use > 0">
         <template v-for="key in 10" v-if="rows_use >= key">
           <div class="mb-3" :key="key">
             <div class="input-group">
@@ -98,7 +98,7 @@ echo $template['main']['open'];
         </template>
       </detail-info-area>
 
-      <detail-info-area id="area-size" name="사이즈 정보" description="사이즈 수치를 입력하시면 됩니다." v-if="input_use > 0 && rows_use > 0">
+      <detail-info-area id="area-size" v-if="input_use > 0 && rows_use > 0">
         <template v-for="row in 10" v-if="rows_use >= row">
           <div class="card mb-3" :key="row">
             <div class="card-header">{{rowname['rows' + row] || '-'}}</div>
@@ -116,7 +116,7 @@ echo $template['main']['open'];
         </template>
       </detail-info-area>
 
-      <detail-info-area id="area-style" name="Style" description="" v-if="input_use > 0">
+      <detail-info-area id="area-style" v-if="input_use > 0">
         <template v-for="key in 10" v-if="input_use >= key">
           <div class="card mb-3" :key="key">
             <div class="card-header">{{column['input' + key] || 'style-' + key}}</div>
@@ -145,6 +145,10 @@ echo $template['main']['open'];
             </div>
           </div>
         </template>
+      </detail-info-area>
+
+      <detail-info-area id="area-image" v-if="input_use > 0">
+        <img src="http://via.placeholder.com/400x400">
       </detail-info-area>
 
       <template v-if="reg_date || up_date || del_date">

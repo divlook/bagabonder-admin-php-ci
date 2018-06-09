@@ -7,34 +7,12 @@
       current: {
         type: String,
         required: true,
+      },
+      nav: {
+        type: Array,
+        required: true,
       }
     },
-    data: function () {
-      return {
-        nav: [
-          {
-            id: 'area-default',
-            name: '기본정보',
-          },
-          {
-            id: 'area-column',
-            name: '명칭 이름',
-          },
-          {
-            id: 'area-rowname',
-            name: '사이즈 이름',
-          },
-          {
-            id: 'area-size',
-            name: '사이즈 정보',
-          },
-          {
-            id: 'area-style',
-            name: 'Style',
-          },
-        ]
-      }
-    }
   })
 
 
@@ -45,14 +23,57 @@
         type: String,
         required: true,
       },
-      name: {
-        type: String,
-        required: true,
-      },
-      description: {
-        type: String,
-      },
     },
+    data: function () {
+      return {
+        nav: [
+          {
+            id: 'area-default',
+            name: '기본정보',
+            description: '',
+          },
+          {
+            id: 'area-column',
+            name: '명칭 이름',
+            description: '예) input-1 = 총장, input-2 = 어깨',
+          },
+          {
+            id: 'area-rowname',
+            name: '사이즈 이름',
+            description: '예) rows-1 = S, rows-2 = M',
+          },
+          {
+            id: 'area-size',
+            name: '사이즈 정보',
+            description: '사이즈 수치를 입력하시면 됩니다.',
+          },
+          {
+            id: 'area-style',
+            name: 'Style',
+            description: '',
+          },
+          {
+            id: 'area-image',
+            name: 'Image',
+            description: '',
+          },
+        ]
+      }
+    },
+    computed: {
+      current_data: function () {
+        var that = this
+        return this.nav.filter(function (el) {
+          return el.id === that.id
+        })[0] || {}
+      },
+      name: function () {
+        return this.current_data.name
+      },
+      description: function () {
+        return this.current_data.description
+      },
+    }
   })
 
   new Vue({
