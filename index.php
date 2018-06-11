@@ -59,6 +59,15 @@ $_ENV = array_merge(
 define('RESPONSE_TIME', time());
 
 /*
+ * CDN_DIR
+ */
+$CDN_DIR = 'cdn';
+if (!is_dir($CDN_DIR)) {
+  mkdir($CDN_DIR, 0777, TRUE);
+}
+define('CDN_DIR', $CDN_DIR);
+
+/*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
