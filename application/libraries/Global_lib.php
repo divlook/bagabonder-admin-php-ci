@@ -159,4 +159,32 @@ class Global_lib {
     return $result;
   }
 
+  public function base64_to_data($base64_string)
+  {
+    $result = array(
+      'data' => '',
+      'type' => '',
+      'ext' => '',
+    );
+
+    // $data[ 0 ] == "data:image/png;base64"
+    // $data[ 1 ] == <actual base64 string>
+    $data = explode( ',', $base64_string );
+
+    preg_match('/^data:(.+)\/(.+);base64$/', $data[0], $matches);
+
+    $result['data'] = base64_decode($data[ 1 ]);
+    $result['type'] = $matches[1];
+    $result['ext'] = $matches[2];
+
+    return $result;
+  }
+
+  public function save_image_from_data($data, $output_file)
+  {
+    $ifp = fopen( $output_file, 'wb' );
+    fwrite( $ifp, $data );
+    fclose( $ifp );
+  }
+
 }
