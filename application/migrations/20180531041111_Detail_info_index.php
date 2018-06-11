@@ -14,7 +14,7 @@ class Migration_Detail_info_index extends CI_Migration {
       ),
       'category' => array(
         'type' => 'VARCHAR',
-        'constraint' => '20',
+        'constraint' => 20,
         'unique' => TRUE,
       ),
       'input_use' => array(
@@ -25,6 +25,11 @@ class Migration_Detail_info_index extends CI_Migration {
       'rows_use' => array(
         'type' => 'INT',
         'constraint' => 11,
+        'null' => FALSE,
+      ),
+      'image' => array(
+        'type' => 'VARCHAR',
+        'constraint' => 255,
         'null' => FALSE,
       ),
       'reg_date' => array(
