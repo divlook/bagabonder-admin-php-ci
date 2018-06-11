@@ -83,12 +83,20 @@ class Shop extends CI_Controller {
       $result['msg'] = 'category';
     }
 
+    // 이미지 생성
+    $image_result = $this->_generate_image();
+    if ($image_result['code'] !== 1) {
+      $result['code'] = $image_result['code'];
+      $result['msg'] = $image_result['msg'];
+    }
+
     // detail_info_index 저장
     if ($result['code'] === 1) {
       $this->detail_info_model->post_index(array(
         'category' => $json->category,
         'input_use' => $json->input_use,
         'rows_use' => $json->rows_use,
+        'image' => $image_result['output'],
       ));
     }
 
@@ -146,7 +154,53 @@ class Shop extends CI_Controller {
       $this->detail_info_model->post_style($param);
     }
 
+    if ($result['code'] !== 1) {
+      // 마지막에 $result['code'] === 1 이 아니면 이미지도 삭제하고, db도 삭제해야함.
+    }
+
     $this->global_lib->result2json($result);
+  }
+
+  /**
+   * 이미지 저장
+   */
+  public function _generate_image()
+  {
+    $json = $this->global_lib->get_json();
+    $result = array();
+
+    $result['code'] = 1;
+    $result['msg'] = '';
+
+    $result['dir'] = CDN_DIR . '/' . date('Ymd', now($_ENV['server']['timezone']));
+    $result['file'] = $this->global_lib->base64_to_data($json->image);
+    $result['name'] = $json->category . '_' . date('His', now($_ENV['server']['timezone']));
+    $result['output'] = $result['dir'] . '/' . $result['name'] . '.' . $result['file']['ext'];
+
+    if ($result['file']['type'] !== 'image' || !preg_match('/(jpe?g|png|gif)/', $result['file']['ext'])) {
+      $result['code'] = 3;
+      $result['msg'] = 'image';
+    }
+
+    if (!is_dir($result['dir'])) {
+      mkdir($result['dir']);
+    }
+
+    if ($result['code'] === 1) {
+      $this->global_lib->save_image_from_data($result['file']['data'], $result['output']);
+    }
+
+    $this->load->library('image_lib', array(
+      'image_library' => 'gd2',
+      'source_image' => $result['output'],
+      'maintain_ratio' => TRUE,
+      'width' => 400,
+      'height' => 400,
+    ));
+
+    $this->image_lib->resize();
+
+    return $result;
   }
 
 }
