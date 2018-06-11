@@ -36,6 +36,7 @@ class Detail_info_model extends CI_Model {
       'category' => $param['category'],
       'input_use' => $param['input_use'],
       'rows_use' => $param['rows_use'],
+      'image' => $param['image'],
       'reg_date' => $this->global_lib->get_datetime(),
     );
 

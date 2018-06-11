@@ -6,3 +6,6 @@ dploy.yaml
 # 설정파일
 *.ini
 !env_example.ini
+
+# CDN
+cdn
