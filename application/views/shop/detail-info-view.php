@@ -94,7 +94,7 @@ echo $template['main']['open'];
             <div class="input-group-prepend">
               <label class="input-group-text">옷의 분류</label>
             </div>
-            <input type="text" class="form-control" placeholder="Category" autocomplete="off" v-model="category" required>
+            <input ref="inputCategory" type="text" class="form-control" placeholder="Category" autocomplete="off" v-model="category" @keyup="category_check" required>
             <div class="invalid-feedback">
               소문자 영문과 특수문자 "_"만 입력할 수 있습니다. (a~z, _)
             </div>

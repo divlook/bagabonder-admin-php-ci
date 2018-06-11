@@ -93,7 +93,8 @@
         del_date: '',
         preview: {
           rowname: 'rows1',
-        }
+        },
+        category_timer: null,
       }
     },
     computed: {
@@ -134,7 +135,32 @@
       upper_obj: function (obj, key) {
         this.$set(obj, key, this.upper(obj[key]))
       },
+      category_check: function () {
+        var that = this
+        clearTimeout(this.category_timer)
+
+        if (!that.category) return false
+
+        this.category_timer = setTimeout(function () {
+          axios({
+            method: 'get',
+            url: app.url.join('api/shop/detail-info/check'),
+            params: {
+              category: that.category,
+            }
+          }).then(function (response) {
+            var result = response.data
+            if (result.code === 4) {
+              alert('Category overlap')
+              that.$refs.inputCategory.value = ''
+              that.$refs.inputCategory.focus()
+            }
+          })
+        }, 300)
+      },
       submit: function () {
+        var that = this
+
         axios({
           method: 'post',
           url: app.url.join('api/shop/detail-info'),
@@ -150,7 +176,19 @@
           },
         }).then(function (response) {
           var result = response.data
-          console.log(result)
+
+          switch (result.code) {
+            case 1:
+              location.href = app.url.join('shop/detail-info')
+              break
+            case 4:
+              that.$refs.inputCategory.value = ''
+              that.$refs.inputCategory.focus()
+              break
+            default:
+              alert(result.msg || 'Error')
+              break
+          }
         })
       },
       preview_file: function () {

@@ -68,6 +68,7 @@ $route['api/user/info']['put'] = 'api/user/info';
 $route['api/user/delete/(:idx)']['delete'] = 'api/user/delete/$1';
 $route['api/user/ban/(:idx)']['delete'] = 'api/user/ban/$1';
 $route['api/user/ban/(:idx)']['post'] = 'api/user/ban/$1';
+$route['api/shop/detail-info/check']['get'] = 'api/shop/detail_info_check';
 $route['api/shop/detail-info']['post'] = 'api/shop/detail_info';
 
 /*

@@ -12,6 +12,28 @@ class Shop extends CI_Controller {
     $this->load->model('detail_info_model');
   }
 
+  public function detail_info_check()
+  {
+    $result = array('code' => 1);
+
+    $category = $this->input->get('category');
+
+    if (!$category) {
+      $result['code'] = 2;
+      $result['msg'] = 'category';
+    }
+
+    if ($result['code'] === 1) {
+      $category_overlap = $this->detail_info_model->category_overlap_check(array('category' => $category)) > 0;
+      if ($category_overlap) {
+        $result['code'] = 4;
+        $result['msg'] = 'category';
+      }
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
   public function detail_info()
   {
     /*
