@@ -34,13 +34,14 @@ class Shop extends CI_Controller {
     $this->global_lib->result2json($result);
   }
 
-  public function detail_info()
+  public function detail_info($idx = NULL)
   {
     /*
     {
       category: '',
       input_use: 5,
       rows_use: 5,
+      image: '',
       column: {},
       rowname: {},
       size: {{}},
@@ -48,13 +49,61 @@ class Shop extends CI_Controller {
     }
      */
 
-    if ($this->input->method(TRUE) === 'GET') {
-      show_404();
+    if ($this->input->method(TRUE) === 'GET' && $idx) {
+      $this->_get_detail_info($idx);
       return;
     } else if ($this->input->method(TRUE) === 'POST') {
       $this->_post_detail_info();
+      return;
+    }
+    show_404();
+  }
+
+  public function _get_detail_info($idx = NULL)
+  {
+    $result = array('code' => 1);
+    $index_result = NULL;
+    $column_result = NULL;
+    $rowname_result = NULL;
+    $size_result = NULL;
+    $style_result = NULL;
+
+    if (!$idx) {
+      $result['code'] = 3;
+      $result['msg'] = 'idx';
     }
 
+    if ($result['code'] === 1) {
+      $index_result = $this->detail_info_model->get_index(array('idx' => $idx));
+      if (!$index_result) {
+        $result['code'] = 5;
+      }
+    }
+
+    if ($result['code'] === 1) {
+      $column_result = $this->detail_info_model->get_column(array('category' => $index_result->category));
+      $rowname_result = $this->detail_info_model->get_rowname(array('category' => $index_result->category));
+      $size_result = $this->detail_info_model->get_size(array('category' => $index_result->category));
+      $style_result = $this->detail_info_model->get_style(array('category' => $index_result->category));
+    }
+
+    $result['data'] = $index_result;
+    $result['data']->column = (object) array();
+    $result['data']->rowname = (object) array();
+    $result['data']->size = (object) array();
+    $result['data']->style = (object) array();
+
+    for ($i = 1; $i <= 10; $i++) {
+      $result['data']->column->{'input' . $i} = $column_result->{'input' . $i};
+      $result['data']->rowname->{'rows' . $i} = $rowname_result->{'rows' . $i};
+      $result['data']->size->{'rows' . $i} = (object) array();
+      for ($j = 1; $j <= 10; $j++) {
+        $result['data']->size->{'rows' . $i}->{'input' . $j} = $index_result->input_use >= $i ? $size_result[$i - 1]->{'input' . $j} : NULL;
+      }
+      $result['data']->style->{'input' . $i} = $style_result->{'input' . $i};
+    }
+
+    $this->global_lib->result2json($result);
   }
 
   public function _post_detail_info()

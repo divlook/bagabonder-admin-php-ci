@@ -67,4 +67,40 @@ class Detail_info_model extends CI_Model {
     return $this->db->insert('detail_info_style', $param);
   }
 
+  public function get_index($param = array())
+  {
+    $this->db->where('idx', $param['idx']);
+    $query = $this->db->get('detail_info_index');
+    return $query->row();
+  }
+
+  public function get_column($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    $query = $this->db->get('detail_info_column');
+    return $query->row();
+  }
+
+  public function get_rowname($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    $query = $this->db->get('detail_info_rowname');
+    return $query->row();
+  }
+
+  public function get_size($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    $this->db->order_by('idx', 'asc');
+    $query = $this->db->get('detail_info_size');
+    return $query->result();
+  }
+
+  public function get_style($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    $query = $this->db->get('detail_info_style');
+    return $query->row();
+  }
+
 }

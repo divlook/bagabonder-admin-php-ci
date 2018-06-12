@@ -98,6 +98,16 @@
       }
     },
     computed: {
+      image_src: function () {
+        return this.image || 'http://via.placeholder.com/400x400/ffffff'
+      },
+      idx: function () {
+        var path_arr = location.pathname.split('/')
+        if (path_arr.length > 4) {
+          return path_arr[4]
+        }
+        return null
+      },
       mode: function () {
         var path_arr = location.pathname.split('/')
         if (path_arr.length > 3) {
@@ -117,6 +127,16 @@
         }
       },
     },
+    mounted: function () {
+      var that = this
+      this.$nextTick(function () {
+        document.addEventListener('DOMContentLoaded', function () {
+          if (that.idx) {
+            that.get_data()
+          }
+        })
+      })
+    },
     methods: {
       generate_input: function (count, name, val) {
         var data = {}
@@ -134,6 +154,45 @@
       },
       upper_obj: function (obj, key) {
         this.$set(obj, key, this.upper(obj[key]))
+      },
+      get_data: function () {
+        var that = this
+
+        if (!that.idx) {
+          return
+        }
+
+        axios({
+          method: 'get',
+          url: app.url.join('api/shop/detail-info/' + that.idx),
+        }).then(function (response) {
+          var result = response.data
+
+          switch (result.code) {
+            case 1:
+              that.category = result.data.category || '';
+              that.input_use = result.data.input_use || 0;
+              that.rows_use = result.data.rows_use || 0;
+              that.column = result.data.column || that.generate_input(10, 'input');
+              that.rowname = result.data.rowname || that.generate_input(10, 'rows');
+              that.size = result.data.size || that.generate_input(10, 'rows', that.generate_input(10, 'input'));
+              that.style = result.data.style || that.generate_input(10, 'input', { top: 0, left: 0, display: 'block' });
+              that.image = app.url.join(result.data.image) || '';
+              that.reg_date = result.data.reg_date || '';
+              that.up_date = result.data.up_date || '';
+              that.del_date = result.data.del_date || '';
+
+              for (var i in that.style) {
+                if (that.style[i]) {
+                  that.style[i] = JSON.parse(that.style[i])
+                }
+              }
+              break
+            default:
+              alert(result.msg || 'Error')
+              break
+          }
+        })
       },
       category_check: function () {
         var that = this
@@ -161,6 +220,9 @@
       submit: function () {
         var that = this
 
+        console.log('submit')
+
+        return false
         axios({
           method: 'post',
           url: app.url.join('api/shop/detail-info'),
@@ -202,7 +264,6 @@
         }
 
         reader.addEventListener("load", function () {
-          preview.src = reader.result
           that.$set(that, 'image', reader.result)
         }, false)
 
@@ -211,7 +272,6 @@
         }
       },
       remove_file: function () {
-        this.$refs.preview.src = 'http://via.placeholder.com/400x400/ffffff'
         this.$refs.file.value = ''
         this.$set(this, 'image', '')
       }

@@ -208,7 +208,7 @@ echo $template['main']['open'];
       <detail-info-area id="area-preview">
         <div class="mb-3 form-inline align-items-baseline">
           <div class="input-group mb-2 mr-2">
-            <input ref="file" type="file" class="form-control" @change="preview_file" accept="image/*" required>
+            <input ref="file" type="file" class="form-control" @change="preview_file" accept="image/*" :required="!image">
             <div class="valid-feedback">
               Good.
             </div>
@@ -222,7 +222,7 @@ echo $template['main']['open'];
         </div>
 
         <div class="mb-3 position-relative" style="max-width: 400px">
-          <img ref="preview" :src="image || 'http://via.placeholder.com/400x400/ffffff'" style="max-height: 400px;max-width: 400px;border: 1px solid rgba(0,0,0,.1)">
+          <img ref="preview" :src="image_src" style="max-height: 400px;max-width: 400px;border: 1px solid rgba(0,0,0,.1)">
 
           <div class="contents-input-area">
             <div class="contents-input-active">
