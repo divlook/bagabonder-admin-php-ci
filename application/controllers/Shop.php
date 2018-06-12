@@ -56,7 +56,7 @@ class Shop extends CI_Controller {
         'name' => '수정한 날짜',
       ),
       'del_date' => array(
-        'name' => '삭제한 날짜',
+        'hidden' => true,
       ),
     );
 
