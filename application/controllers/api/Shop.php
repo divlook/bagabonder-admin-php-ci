@@ -49,17 +49,13 @@ class Shop extends CI_Controller {
     }
      */
 
-    if ($this->input->method(TRUE) === 'GET' && $idx) {
-      $this->_get_detail_info($idx);
-      return;
-    } else if ($this->input->method(TRUE) === 'POST') {
-      $this->_post_detail_info();
-      return;
-    } else if ($this->input->method(TRUE) === 'DELETE') {
-      $this->_delete_detail_info($idx);
-      return;
+    switch ($this->input->method(TRUE)) {
+      case 'GET': $this->_get_detail_info($idx); break;
+      case 'POST': $this->_post_detail_info(); break;
+      case 'DELETE': $this->_delete_detail_info($idx); break;
+      case 'PUT': $this->_put_detail_info($idx); break;
+      default: show_404(); break;
     }
-    show_404();
   }
 
   public function _get_detail_info($idx = NULL)
@@ -135,53 +131,57 @@ class Shop extends CI_Controller {
       'category' => $json->category,
     );
 
-    if (!isset($json->category) || !$json->category) {
+    if ($result['code'] === 1 && !isset($json->category) || !$json->category) {
       $result['code'] = 3;
       $result['msg'] = 'category';
     }
-    if (!isset($json->input_use) || $json->input_use < 1 || $json->input_use > 10) {
+    if ($result['code'] === 1 && !isset($json->input_use) || $json->input_use < 1 || $json->input_use > 10) {
       $result['code'] = 3;
       $result['msg'] = 'input_use';
     }
-    if (!isset($json->rows_use) || $json->rows_use < 1 || $json->rows_use > 10) {
+    if ($result['code'] === 1 && !isset($json->rows_use) || $json->rows_use < 1 || $json->rows_use > 10) {
       $result['code'] = 3;
       $result['msg'] = 'rows_use';
     }
-    if (!isset($json->column) || !is_object($json->column)) {
+    if ($result['code'] === 1 && !isset($json->column) || !is_object($json->column)) {
       $result['code'] = 3;
       $result['msg'] = 'column';
     }
-    if (!isset($json->rowname) || !is_object($json->rowname)) {
+    if ($result['code'] === 1 && !isset($json->rowname) || !is_object($json->rowname)) {
       $result['code'] = 3;
       $result['msg'] = 'rowname';
     }
-    if (!isset($json->size) || !is_object($json->size)) {
+    if ($result['code'] === 1 && !isset($json->size) || !is_object($json->size)) {
       $result['code'] = 3;
       $result['msg'] = 'size';
     }
-    if (!isset($json->style) || !is_object($json->style)) {
+    if ($result['code'] === 1 && !isset($json->style) || !is_object($json->style)) {
       $result['code'] = 3;
       $result['msg'] = 'style';
     }
-    if (!isset($json->image)) {
+    if ($result['code'] === 1 && !isset($json->image)) {
       $result['code'] = 3;
       $result['msg'] = 'image';
     }
 
-    $category_overlap = $this->detail_info_model->category_overlap_check(array(
-      'category' => $json->category,
-    ));
+    if ($result['code'] === 1) {
+      $category_overlap = $this->detail_info_model->category_overlap_check(array(
+        'category' => $json->category,
+      ));
 
-    if ($category_overlap) {
-      $result['code'] = 4;
-      $result['msg'] = 'category';
+      if ($category_overlap) {
+        $result['code'] = 4;
+        $result['msg'] = 'category';
+      }
     }
 
-    // 이미지 생성
-    $image_result = $this->_fn_generate_image();
-    if ($image_result['code'] !== 1) {
-      $result['code'] = $image_result['code'];
-      $result['msg'] = $image_result['msg'];
+    if ($result['code'] === 1) {
+      // 이미지 생성
+      $image_result = $this->_fn_generate_image();
+      if ($image_result['code'] !== 1) {
+        $result['code'] = $image_result['code'];
+        $result['msg'] = $image_result['msg'];
+      }
     }
 
     if ($result['code'] === 1) {
