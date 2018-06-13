@@ -225,12 +225,11 @@ class Shop extends CI_Controller {
       $param = array(
         'category' => $json->category,
       );
-      for ($i = 1; $i <= $json->input_use; $i++) {
-        $temp = $json->style->{'input'.$i};
-        if (is_object($temp)) {
-          $temp = json_encode($temp);
-        }
-        $param['input'.$i] = $temp;
+      for ($i = 1; $i <= 10; $i++) {
+        $style = @$json->style->{'input'.$i};
+        if (!$style) $style = '{ top: 0, left: 0, display: \'block\' }';
+        if (is_object($style)) $style = (string) json_encode($style);
+        $param['input'.$i] = $style;
       }
       $this->detail_info_model->post_style($param);
     }
