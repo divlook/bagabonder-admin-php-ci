@@ -313,8 +313,8 @@
         this.$set(this, 'image', '')
       },
       input_drag: function (key) {
-        this.style[key].top += event.offsetY - 6 || 0
-        this.style[key].left += event.offsetX - 6 || 0
+        this.style[key].top += event.offsetY - event.target.clientHeight / 2 || 0
+        this.style[key].left += event.offsetX - event.target.clientWidth / 2 || 0
       },
     }
   })
