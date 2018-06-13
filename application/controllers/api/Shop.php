@@ -55,6 +55,9 @@ class Shop extends CI_Controller {
     } else if ($this->input->method(TRUE) === 'POST') {
       $this->_post_detail_info();
       return;
+    } else if ($this->input->method(TRUE) === 'DELETE') {
+      $this->_delete_detail_info($idx);
+      return;
     }
     show_404();
   }
@@ -101,6 +104,22 @@ class Shop extends CI_Controller {
         $result['data']->size->{'rows' . $i}->{'input' . $j} = $index_result->input_use >= $i ? $size_result[$i - 1]->{'input' . $j} : NULL;
       }
       $result['data']->style->{'input' . $i} = $style_result->{'input' . $i};
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
+  public function _delete_detail_info($idx = NULL)
+  {
+    $result = array('code' => 1);
+
+    if (!$idx) {
+      $result['code'] = 2;
+      $result['msg'] = 'idx';
+    }
+
+    if ($result['code'] === 1) {
+      $this->_fn_delete_detail_info(array('idx' => $idx));
     }
 
     $this->global_lib->result2json($result);
@@ -155,7 +174,7 @@ class Shop extends CI_Controller {
     }
 
     // 이미지 생성
-    $image_result = $this->_generate_image();
+    $image_result = $this->_fn_generate_image();
     if ($image_result['code'] !== 1) {
       $result['code'] = $image_result['code'];
       $result['msg'] = $image_result['msg'];
@@ -225,8 +244,12 @@ class Shop extends CI_Controller {
       $this->detail_info_model->post_style($param);
     }
 
+    // 결과가 실패하면 다 삭제 함.
     if ($result['code'] !== 1) {
-      // 마지막에 $result['code'] === 1 이 아니면 이미지도 삭제하고, db도 삭제해야함.
+      $this->_fn_delete_detail_info(array(
+        'category' => $json->category,
+        'image' => $image_result['output'],
+      ));
     }
 
     $this->global_lib->result2json($result);
@@ -235,7 +258,7 @@ class Shop extends CI_Controller {
   /**
    * 이미지 저장
    */
-  public function _generate_image()
+  public function _fn_generate_image()
   {
     $json = $this->global_lib->get_json();
     $result = array();
@@ -272,6 +295,20 @@ class Shop extends CI_Controller {
     $this->image_lib->resize();
 
     return $result;
+  }
+
+  public function _fn_delete_detail_info($param = array())
+  {
+    if (!isset($param['category']) && !isset($param['image'])) {
+      $index_result = $this->detail_info_model->get_index(array('idx' => $param['idx']));
+      $param['category'] = $index_result->category;
+      $param['image'] = $index_result->image;
+      unset($index_result);
+    }
+    $this->detail_info_model->delete_category(array('category' => $param['category']));
+    unlink($param['image']);
+    unset($param);
+    return true;
   }
 
 }

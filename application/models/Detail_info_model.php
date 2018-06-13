@@ -103,4 +103,26 @@ class Detail_info_model extends CI_Model {
     return $query->row();
   }
 
+  /**
+   * @param array('category') $param
+   * @return bool
+   */
+  public function delete_category($param = array())
+  {
+    if (!isset($param['category'])) return false;
+
+    $tables = array(
+      'detail_info_index',
+      'detail_info_column',
+      'detail_info_rowname',
+      'detail_info_size',
+      'detail_info_style',
+    );
+
+    foreach ($tables as $table) {
+      $this->db->delete($table, array('category' => $param['category']));
+    }
+    return true;
+  }
+
 }

@@ -220,9 +220,6 @@
       submit: function () {
         var that = this
 
-        console.log('submit')
-
-        return false
         axios({
           method: 'post',
           url: app.url.join('api/shop/detail-info'),
@@ -246,6 +243,29 @@
             case 4:
               that.$refs.inputCategory.value = ''
               that.$refs.inputCategory.focus()
+              break
+            default:
+              alert(result.msg || 'Error')
+              break
+          }
+        })
+      },
+      remove: function () {
+        var that = this
+
+        if (!confirm('삭제한 DATA는 복구할 수 없습니다. 삭제하시겠습니까?')) {
+          return
+        }
+
+        axios({
+          method: 'delete',
+          url: app.url.join('api/shop/detail-info/' + that.idx),
+        }).then(function (response) {
+          var result = response.data
+
+          switch (result.code) {
+            case 1:
+              location.href = app.url.join('shop/detail-info')
               break
             default:
               alert(result.msg || 'Error')

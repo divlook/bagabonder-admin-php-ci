@@ -280,9 +280,14 @@ echo $template['main']['open'];
         <hr class="mb-4">
       </template>
 
-      <button class="btn btn-primary" type="submit">
+      <button class="btn btn-primary" :class="{ 'mr-2': mode !== 'add' }" type="submit">
         <span data-feather="edit-2">{{ mode === 'add' ? '추가하기' : '수정하기' }}</span>
         {{ mode === 'add' ? '추가하기' : '수정하기' }}
+      </button>
+
+      <button class="btn btn-danger" type="button" v-if="mode !== 'add'" @click="remove">
+        <span data-feather="trash">삭제하기</span>
+        삭제하기
       </button>
     </form>
   </div>
