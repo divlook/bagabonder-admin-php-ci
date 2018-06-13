@@ -91,7 +91,7 @@ class Detail_info_model extends CI_Model {
   public function get_size($param = array())
   {
     $this->db->where('category', $param['category']);
-    $this->db->order_by('idx', 'asc');
+    $this->db->order_by('row_key', 'asc');
     $query = $this->db->get('detail_info_size');
     return $query->result();
   }
@@ -103,10 +103,6 @@ class Detail_info_model extends CI_Model {
     return $query->row();
   }
 
-  /**
-   * @param array('category') $param
-   * @return bool
-   */
   public function delete_category($param = array())
   {
     if (!isset($param['category'])) return false;
