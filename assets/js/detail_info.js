@@ -99,7 +99,12 @@
     },
     computed: {
       image_src: function () {
-        return this.image || 'http://via.placeholder.com/400x400/ffffff'
+        var src = 'http://via.placeholder.com/400x400/ffffff'
+        if (this.image) {
+          src = app_config.base_url + this.image
+          if (!/^cdn\//.test(this.image)) src = this.image
+        }
+        return src
       },
       idx: function () {
         var path_arr = location.pathname.split('/')
@@ -177,7 +182,7 @@
               that.rowname = result.data.rowname || that.generate_input(10, 'rows');
               that.size = result.data.size || that.generate_input(10, 'rows', that.generate_input(10, 'input'));
               that.style = result.data.style || that.generate_input(10, 'input', { top: 0, left: 0, display: 'block' });
-              that.image = app.url.join(result.data.image) || '';
+              that.image = result.data.image || '';
               that.reg_date = result.data.reg_date || '';
               that.up_date = result.data.up_date || '';
               that.del_date = result.data.del_date || '';
