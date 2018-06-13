@@ -121,4 +121,48 @@ class Detail_info_model extends CI_Model {
     return true;
   }
 
+  public function put_index($param = array())
+  {
+    $this->db->where('category', $param['category']);
+    if (isset($param['input_use'])) $this->db->set('input_use', $param['input_use']);
+    if (isset($param['rows_use'])) $this->db->set('rows_use', $param['rows_use']);
+    if (isset($param['image'])) $this->db->set('image', $param['image']);
+    $this->db->set('up_date', $this->global_lib->get_datetime());
+
+    return $this->db->update('detail_info_index');
+  }
+
+  public function put_column($param = array())
+  {
+    $data = array_diff_key($param, array('category' => NULL));
+    $data['up_date'] = $this->global_lib->get_datetime();
+    $this->db->where('category', $param['category']);
+    return $this->db->update('detail_info_column', $data);
+  }
+
+  public function put_rowname($param = array())
+  {
+    $data = array_diff_key($param, array('category' => NULL));
+    $data['up_date'] = $this->global_lib->get_datetime();
+    $this->db->where('category', $param['category']);
+    return $this->db->update('detail_info_rowname', $data);
+  }
+
+  public function put_size($param = array())
+  {
+    $data = array_diff_key($param, array('category' => NULL, 'row_key' => NULL));
+    $data['up_date'] = $this->global_lib->get_datetime();
+    $this->db->where('category', $param['category']);
+    $this->db->where('row_key', $param['row_key']);
+    return $this->db->update('detail_info_size', $data);
+  }
+
+  public function put_style($param = array())
+  {
+    $data = array_diff_key($param, array('category' => NULL));
+    $data['up_date'] = $this->global_lib->get_datetime();
+    $this->db->where('category', $param['category']);
+    return $this->db->update('detail_info_style', $data);
+  }
+
 }

@@ -247,6 +247,144 @@ class Shop extends CI_Controller {
     $this->global_lib->result2json($result);
   }
 
+  public function _put_detail_info($idx = NULL)
+  {
+    $result = array('code' => 1);
+
+    $json = $this->global_lib->get_json();
+
+    if (!$idx) {
+      $result['code'] = 2;
+      $result['msg'] = 'idx';
+    }
+
+    $info_data = $this->detail_info_model->get_index(array('idx' => $idx));
+    if (!$info_data) {
+      $result['code'] = 5;
+      $result['msg'] = $idx;
+    }
+
+    $size_data = $this->detail_info_model->get_size(array('category' => $info_data->category));
+    if (!$info_data) {
+      $result['code'] = 5;
+      $result['msg'] = 'size';
+    }
+
+    if ($result['code'] === 1 && !isset($json->category) || !$json->category || $info_data->category !== $json->category) {
+      $result['code'] = 3;
+      $result['msg'] = 'category';
+    }
+    if ($result['code'] === 1 && !isset($json->input_use) || $json->input_use < 1 || $json->input_use > 10) {
+      $result['code'] = 3;
+      $result['msg'] = 'input_use';
+    }
+    if ($result['code'] === 1 && !isset($json->rows_use) || $json->rows_use < 1 || $json->rows_use > 10) {
+      $result['code'] = 3;
+      $result['msg'] = 'rows_use';
+    }
+    if ($result['code'] === 1 && !isset($json->column) || !is_object($json->column)) {
+      $result['code'] = 3;
+      $result['msg'] = 'column';
+    }
+    if ($result['code'] === 1 && !isset($json->rowname) || !is_object($json->rowname)) {
+      $result['code'] = 3;
+      $result['msg'] = 'rowname';
+    }
+    if ($result['code'] === 1 && !isset($json->size) || !is_object($json->size)) {
+      $result['code'] = 3;
+      $result['msg'] = 'size';
+    }
+    if ($result['code'] === 1 && !isset($json->style) || !is_object($json->style)) {
+      $result['code'] = 3;
+      $result['msg'] = 'style';
+    }
+    if ($result['code'] === 1 && !isset($json->image)) {
+      $result['code'] = 3;
+      $result['msg'] = 'image';
+    }
+
+    if ($result['code'] === 1 && $info_data->image !== $json->image) {
+      // 새로운 이미지 생성
+      $image_result = $this->_fn_generate_image();
+      if ($image_result['code'] !== 1) {
+        $result['code'] = $image_result['code'];
+        $result['msg'] = $image_result['msg'];
+      }
+    }
+
+    if ($result['code'] === 1) {
+      // detail_info_index 수정
+      $param = array(
+        'category' => $json->category,
+      );
+      if ($json->input_use !== $info_data->input_use) $param['input_use'] = $json->input_use;
+      if ($json->rows_use !== $info_data->rows_use) $param['rows_use'] = $json->rows_use;
+      if ($json->image !== $info_data->image) $param['image'] = $image_result['output'];
+      $this->detail_info_model->put_index($param);
+
+      // detail_info_column 수정
+      $param = array(
+        'category' => $json->category,
+      );
+      for ($i = 1; $i <= $json->input_use; $i++) {
+        $param['input'.$i] = $json->column->{'input'.$i};
+      }
+      $this->detail_info_model->put_column($param);
+
+      // detail_info_rowname 수정
+      $param = array(
+        'category' => $json->category,
+      );
+      for ($i = 1; $i <= $json->rows_use; $i++) {
+        $param['rows'.$i] = $json->rowname->{'rows'.$i};
+      }
+      $this->detail_info_model->put_rowname($param);
+
+      // detail_info_size 수정
+      $param = array(
+        'category' => $json->category,
+      );
+      for ($i = 1; $i <= $json->rows_use; $i++) {
+        $param['row_key'] = $i;
+        $row_key = 'rows'.$i;
+        $is_put = FALSE;
+
+        for ($j = 1; $j <= $json->input_use; $j++) {
+          $input_key = 'input' . $j;
+          $param[$input_key] = $json->size->{$row_key}->{$input_key};
+        }
+
+        foreach ($size_data as $row) {
+          if ($row->row_key == $i) {
+            $is_put = TRUE;
+            break;
+          }
+        }
+
+        if ($is_put) {
+          $this->detail_info_model->put_size($param);
+        } else {
+          $this->detail_info_model->post_size($param);
+        }
+      }
+
+      // detail_info_style 수정
+      $param = array(
+        'category' => $json->category,
+      );
+      for ($i = 1; $i <= $json->input_use; $i++) {
+        $temp = $json->style->{'input'.$i};
+        if (is_object($temp)) {
+          $temp = json_encode($temp);
+        }
+        $param['input'.$i] = $temp;
+      }
+      $this->detail_info_model->put_style($param);
+    }
+
+    $this->global_lib->result2json($result);
+  }
+
   /**
    * 이미지 저장
    */

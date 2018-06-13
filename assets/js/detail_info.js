@@ -226,10 +226,20 @@
       },
       submit: function () {
         var that = this
+        var method = ''
+        var url = ''
+
+        if (that.mode === 'add') {
+          method = 'post'
+          url = app.url.join('api/shop/detail-info')
+        } else if (that.mode === 'view') {
+          method = 'put'
+          url = app.url.join('api/shop/detail-info/' + that.idx)
+        }
 
         axios({
-          method: 'post',
-          url: app.url.join('api/shop/detail-info'),
+          method: method,
+          url: url,
           data: {
             category: this.category,
             input_use: this.input_use,
