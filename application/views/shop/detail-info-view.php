@@ -24,6 +24,7 @@ echo $template['main']['open'];
       position: absolute;
       top: 0;
       left: 0;
+      cursor: move;
     }
 
     .contents-input-area .contents-input-static {
@@ -231,7 +232,7 @@ echo $template['main']['open'];
                   top: (style['input' + key].top || (key - 1) * 16) + 'px',
                   left: style['input' + key].left + 'px',
                   display: style['input' + key].display || 'block',
-                }">
+                }" draggable="true" @dragend="input_drag('input' + key)">
                   {{size[preview.rowname]['input' + key]}}
                 </p>
               </template>

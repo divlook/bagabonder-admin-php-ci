@@ -311,7 +311,11 @@
       remove_file: function () {
         this.$refs.file.value = ''
         this.$set(this, 'image', '')
-      }
+      },
+      input_drag: function (key) {
+        this.style[key].top += event.offsetY - 6 || 0
+        this.style[key].left += event.offsetX - 6 || 0
+      },
     }
   })
 })()
