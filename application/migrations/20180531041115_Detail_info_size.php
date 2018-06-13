@@ -14,12 +14,12 @@ class Migration_Detail_info_size extends CI_Migration {
       ),
       'category' => array(
         'type' => 'VARCHAR',
-        'constraint' => '20',
+        'constraint' => 20,
         'null' => FALSE,
       ),
-      'rowname' => array(
-        'type' => 'VARCHAR',
-        'constraint' => '10',
+      'row_key' => array(
+        'type' => 'INT',
+        'constraint' => 11,
         'null' => FALSE,
       ),
       'input1' => array(

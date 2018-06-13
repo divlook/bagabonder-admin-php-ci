@@ -212,9 +212,8 @@ class Shop extends CI_Controller {
         'category' => $json->category,
       );
       for ($i = 1; $i <= $json->rows_use; $i++) {
+        $param['row_key'] = $i;
         $row_key = 'rows'.$i;
-        $param['rowname'] = $json->rowname->{$row_key};
-        $json->size->{$row_key};
         for ($j = 1; $j <= $json->input_use; $j++) {
           $input_key = 'input' . $j;
           $param[$input_key] = $json->size->{$row_key}->{$input_key};
