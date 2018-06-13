@@ -127,10 +127,6 @@ class Shop extends CI_Controller {
 
     $json = $this->global_lib->get_json();
 
-    $param = array(
-      'category' => $json->category,
-    );
-
     if ($result['code'] === 1 && !isset($json->category) || !$json->category) {
       $result['code'] = 3;
       $result['msg'] = 'category';
@@ -194,18 +190,27 @@ class Shop extends CI_Controller {
       ));
 
       // detail_info_column 저장
+      $param = array(
+        'category' => $json->category,
+      );
       for ($i = 1; $i <= $json->input_use; $i++) {
         $param['input'.$i] = $json->column->{'input'.$i};
       }
       $this->detail_info_model->post_column($param);
 
       // detail_info_rowname 저장
+      $param = array(
+        'category' => $json->category,
+      );
       for ($i = 1; $i <= $json->rows_use; $i++) {
         $param['rows'.$i] = $json->rowname->{'rows'.$i};
       }
       $this->detail_info_model->post_rowname($param);
 
       // detail_info_size 저장
+      $param = array(
+        'category' => $json->category,
+      );
       for ($i = 1; $i <= $json->rows_use; $i++) {
         $row_key = 'rows'.$i;
         $param['rowname'] = $json->rowname->{$row_key};
@@ -218,6 +223,9 @@ class Shop extends CI_Controller {
       }
 
       // detail_info_style 저장
+      $param = array(
+        'category' => $json->category,
+      );
       for ($i = 1; $i <= $json->input_use; $i++) {
         $temp = $json->style->{'input'.$i};
         if (is_object($temp)) {
