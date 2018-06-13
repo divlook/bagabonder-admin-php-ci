@@ -190,6 +190,8 @@
               for (var i in that.style) {
                 if (that.style[i]) {
                   that.style[i] = JSON.parse(that.style[i])
+                } else {
+                  that.style[i] = { top: 0, left: 0, display: 'block' }
                 }
               }
               break
