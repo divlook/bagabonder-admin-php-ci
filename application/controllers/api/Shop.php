@@ -14,6 +14,10 @@ class Shop extends CI_Controller {
 
   public function detail_info_check()
   {
+    if ($this->auth['code'] !== 1) {
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
+    }
+
     $result = array('code' => 1);
 
     $category = $this->input->get('category');
@@ -36,19 +40,6 @@ class Shop extends CI_Controller {
 
   public function detail_info($idx = NULL)
   {
-    /*
-    {
-      category: '',
-      input_use: 5,
-      rows_use: 5,
-      image: '',
-      column: {},
-      rowname: {},
-      size: {{}},
-      style: {}
-    }
-     */
-
     switch ($this->input->method(TRUE)) {
       case 'GET': $this->_get_detail_info($idx); break;
       case 'POST': $this->_post_detail_info(); break;
@@ -60,8 +51,8 @@ class Shop extends CI_Controller {
 
   public function _get_detail_info($idx = NULL)
   {
-    $result = array('code' => 1);
-    $index_result = NULL;
+    $result = array('code' => 1, 'data' => (object) array());
+
     $column_result = NULL;
     $rowname_result = NULL;
     $size_result = NULL;
@@ -84,24 +75,24 @@ class Shop extends CI_Controller {
       $rowname_result = $this->detail_info_model->get_rowname(array('category' => $index_result->category));
       $size_result = $this->detail_info_model->get_size(array('category' => $index_result->category));
       $style_result = $this->detail_info_model->get_style(array('category' => $index_result->category));
-    }
 
-    $result['data'] = $index_result;
-    $result['data']->column = (object) array();
-    $result['data']->rowname = (object) array();
-    $result['data']->size = (object) array();
-    $result['data']->style = (object) array();
+      $result['data'] = $index_result;
+      $result['data']->column = (object) array();
+      $result['data']->rowname = (object) array();
+      $result['data']->size = (object) array();
+      $result['data']->style = (object) array();
 
-    for ($i = 1; $i <= 10; $i++) {
-      $result['data']->column->{'input' . $i} = $column_result->{'input' . $i};
-      $result['data']->rowname->{'rows' . $i} = $rowname_result->{'rows' . $i};
-      $result['data']->size->{'rows' . $i} = (object) array();
-      for ($j = 1; $j <= 10; $j++) {
-        $style = '{ top: 0, left: 0, display: \'block\' }';
-        if (isset($size_result[$i - 1])) $style = $size_result[$i - 1]->{'input' . $j};
-        $result['data']->size->{'rows' . $i}->{'input' . $j} = $style;
+      for ($i = 1; $i <= 10; $i++) {
+        $result['data']->column->{'input' . $i} = $column_result->{'input' . $i};
+        $result['data']->rowname->{'rows' . $i} = $rowname_result->{'rows' . $i};
+        $result['data']->size->{'rows' . $i} = (object) array();
+        for ($j = 1; $j <= 10; $j++) {
+          $style = '{ top: 0, left: 0, display: \'block\' }';
+          if (isset($size_result[$i - 1])) $style = $size_result[$i - 1]->{'input' . $j};
+          $result['data']->size->{'rows' . $i}->{'input' . $j} = $style;
+        }
+        $result['data']->style->{'input' . $i} = $style_result->{'input' . $i};
       }
-      $result['data']->style->{'input' . $i} = $style_result->{'input' . $i};
     }
 
     $this->global_lib->result2json($result);
@@ -109,6 +100,10 @@ class Shop extends CI_Controller {
 
   public function _delete_detail_info($idx = NULL)
   {
+    if ($this->auth['code'] !== 1) {
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
+    }
+
     $result = array('code' => 1);
 
     if (!$idx) {
@@ -125,6 +120,10 @@ class Shop extends CI_Controller {
 
   public function _post_detail_info()
   {
+    if ($this->auth['code'] !== 1) {
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
+    }
+
     $result = array('code' => 1);
 
     $json = $this->global_lib->get_json();
@@ -249,6 +248,10 @@ class Shop extends CI_Controller {
 
   public function _put_detail_info($idx = NULL)
   {
+    if ($this->auth['code'] !== 1) {
+      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
+    }
+
     $result = array('code' => 1);
 
     $json = $this->global_lib->get_json();
