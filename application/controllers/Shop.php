@@ -22,13 +22,8 @@ class Shop extends CI_Controller {
 
   public function detail_info($mode = '', $idx = NULL)
   {
-    if ($mode === 'add') {
-      $this->_detail_info_add();
-      return;
-    }
-
-    if ($mode === 'view' && $idx) {
-      $this->_detail_info_view();
+    if ($mode === 'add' || $mode === 'view') {
+      $this->_detail_info_view($mode, $idx);
       return;
     }
 
@@ -63,7 +58,7 @@ class Shop extends CI_Controller {
 
     $data = array(
       'header' => array(
-        'title' => 'Detail Info'
+        'title' => '상품 분류 관리'
       ),
       'data' => $table_data,
     );
@@ -71,34 +66,18 @@ class Shop extends CI_Controller {
     $this->load->view('shop/detail-info-list', $data);
   }
 
-  public function _detail_info_add()
+
+  public function _detail_info_view($mode = '', $idx = NULL)
   {
     $data = array(
       'header' => array(
-        'title' => '옷 분류 추가'
+        'title' => '상품 분류' . ($mode === 'add' ? ' 추가' : ' 수정'),
       ),
       'layout' => array(
         'use_vue' => true,
       ),
       'data' => (object) array(
-        'mode' => 'add',
-      ),
-    );
-
-    $this->load->view('shop/detail-info-view', $data);
-  }
-
-  public function _detail_info_view()
-  {
-    $data = array(
-      'header' => array(
-        'title' => '옷 분류 정보'
-      ),
-      'layout' => array(
-        'use_vue' => true,
-      ),
-      'data' => (object) array(
-        'mode' => 'view',
+        'mode' => $mode,
       ),
     );
 

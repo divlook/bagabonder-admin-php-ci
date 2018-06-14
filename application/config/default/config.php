@@ -40,7 +40,7 @@ $config['sidemenu'] = array(
     'path' => 'shop',
     'child' => array(
       array(
-        'name' => 'Detail Info',
+        'name' => '상품 분류 관리',
         'icon' => 'layers',
         'path' => 'detail-info',
       ),
