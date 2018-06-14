@@ -73,6 +73,7 @@ $route['api/shop/detail-info']['post'] = 'api/shop/detail_info';
 $route['api/shop/detail-info/(:idx)']['get'] = 'api/shop/detail_info/$1';
 $route['api/shop/detail-info/(:idx)']['put'] = 'api/shop/detail_info/$1';
 $route['api/shop/detail-info/(:idx)']['delete'] = 'api/shop/detail_info/$1';
+$route['api/shop/detail-info-category/(:category)']['get'] = 'api/shop/detail_info_category/$1';
 
 /*
 | -------------------------------------------------------------------------

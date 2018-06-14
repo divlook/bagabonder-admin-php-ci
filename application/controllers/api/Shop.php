@@ -38,6 +38,30 @@ class Shop extends CI_Controller {
     $this->global_lib->result2json($result);
   }
 
+  public function detail_info_category($category = '')
+  {
+    $result = array('code' => 1);
+
+    if (!$category) {
+      $result['code'] = 2;
+      $result['msg'] = 'category';
+    }
+
+    if ($result['code'] === 1) {
+      $index_result = $this->detail_info_model->get_index(array('category' => $category));
+      if (!$index_result) {
+        $result['code'] = 5;
+      }
+    }
+
+    if ($result['code'] !== 1) {
+      $this->global_lib->result2json($result);
+      return;
+    }
+
+    $this->_get_detail_info(NULL, $index_result);
+  }
+
   public function detail_info($idx = NULL)
   {
     switch ($this->input->method(TRUE)) {
@@ -49,7 +73,7 @@ class Shop extends CI_Controller {
     }
   }
 
-  public function _get_detail_info($idx = NULL)
+  public function _get_detail_info($idx = NULL, $index_result = NULL)
   {
     $result = array('code' => 1, 'data' => (object) array());
 
@@ -58,12 +82,12 @@ class Shop extends CI_Controller {
     $size_result = NULL;
     $style_result = NULL;
 
-    if (!$idx) {
-      $result['code'] = 3;
+    if (!$idx && !$index_result) {
+      $result['code'] = 2;
       $result['msg'] = 'idx';
     }
 
-    if ($result['code'] === 1) {
+    if ($result['code'] === 1 && !$index_result) {
       $index_result = $this->detail_info_model->get_index(array('idx' => $idx));
       if (!$index_result) {
         $result['code'] = 5;

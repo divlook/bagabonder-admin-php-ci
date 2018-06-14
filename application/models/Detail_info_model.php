@@ -69,7 +69,9 @@ class Detail_info_model extends CI_Model {
 
   public function get_index($param = array())
   {
-    $this->db->where('idx', $param['idx']);
+    if (!isset($param['idx']) && !isset($param['category'])) return FALSE;
+    if (isset($param['idx'])) $this->db->where('idx', $param['idx']);
+    if (isset($param['category'])) $this->db->where('category', $param['category']);
     $query = $this->db->get('detail_info_index');
     return $query->row();
   }
