@@ -111,11 +111,15 @@ class Shop extends CI_Controller {
         $result['data']->rowname->{'rows' . $i} = $rowname_result->{'rows' . $i};
         $result['data']->size->{'rows' . $i} = (object) array();
         for ($j = 1; $j <= 10; $j++) {
-          $style = '{ top: 0, left: 0, display: \'block\' }';
-          if (isset($size_result[$i - 1])) $style = $size_result[$i - 1]->{'input' . $j};
-          $result['data']->size->{'rows' . $i}->{'input' . $j} = $style;
+          $result['data']->size->{'rows' . $i}->{'input' . $j} = isset($size_result[$i - 1])
+            ? $size_result[$i - 1]->{'input' . $j}
+            : NULL
+          ;
         }
-        $result['data']->style->{'input' . $i} = $style_result->{'input' . $i};
+        $result['data']->style->{'input' . $i} = $style_result->{'input' . $i}
+          ? $style_result->{'input' . $i}
+          : '{ top: 0, left: 0, display: \'block\' }'
+        ;
       }
     }
 
