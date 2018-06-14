@@ -123,6 +123,20 @@ class Global_lib {
 
   public function result2json($param = array())
   {
+    if ($_SERVER['HTTP_ORIGIN']) {
+      $allow = '';
+      $urls = $_ENV['server']['ALLOW_URLS'];
+      foreach ($urls as $url) {
+        if ($_SERVER['HTTP_ORIGIN'] == $url) {
+          $allow = $url;
+          break;
+        }
+      }
+      if ($allow) {
+        $this->CI->output->set_header('Access-Control-Allow-Origin: ' . $allow);
+      }
+    }
+
     $result = array(
       'code' => 0,
       'msg' => '',
