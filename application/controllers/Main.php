@@ -13,11 +13,7 @@ class Main extends CI_Controller {
 	public function index()
   {
     $this->_init();
-    if ($this->auth['code'] === 1) {
-      redirect('dashboard');
-    } else {
-      redirect('logout?code='. $this->auth['code'] . '&return_url=' . uri_string());
-    }
+    redirect('dashboard');
 	}
 
   public function dashboard()
