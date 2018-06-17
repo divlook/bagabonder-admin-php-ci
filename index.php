@@ -42,14 +42,11 @@
  *---------------------------------------------------------------
  *
  */
+$env_file = isset($_SERVER['BAGABONDER_ENV_PATH']) ? $_SERVER['BAGABONDER_ENV_PATH'] : './env.ini';
 $_ENV = array_merge(
   $_ENV,
-  file_exists('./env.ini')
-    ? parse_ini_file(
-      isset($_SERVER['BAGABONDER_ENV_PATH'])
-        ? $_SERVER['BAGABONDER_ENV_PATH']
-        : 'env.ini',
-      true)
+  file_exists($env_file)
+    ? parse_ini_file($env_file, true)
     : parse_ini_file('env_example.ini', true)
 );
 
