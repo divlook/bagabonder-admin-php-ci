@@ -108,10 +108,8 @@ class Main extends CI_Controller {
       if ($migrations_count > 0) {
         $migrations_keys = array_keys($migrations);
         unset($migrations);
-        for (; 0 < $migrations_count; $migrations_count--) {
-          if ($version < $migrations_keys[$migrations_count - 1]) {
-            $this->migration_model->set_latest();
-          }
+        if ($version < @$migrations_keys[$migrations_count - 1]) {
+          $this->migration_model->set_latest();
         }
       } else {
         $this->migration_model->set_latest();
