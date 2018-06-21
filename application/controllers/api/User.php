@@ -145,12 +145,13 @@ class User extends CI_Controller {
     }
 
     if ($result['code'] === 1 && ($user_data->username != $json->username)) {
+      $put_param['username'] = $json->username;
       $username_overlap = $this->user_model->username_check($json->username) > 0;
       if ($username_overlap) {
         $result['code'] = 4;
         $result['msg'] = 'username';
+        unset($put_param['username']);
       }
-      $put_param['username'] = $user_data->username;
     }
 
     if ($result['code'] === 1 && isset($json->new_password)) {
