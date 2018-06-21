@@ -21,29 +21,42 @@
 
   var level = form.querySelector('#input-level')
 
+  var user_data = {
+    idx: idx.value,
+    username: username.value,
+    password: password.value,
+    auth_idx: auth_idx.value,
+    level: level.value,
+  }
 
   var keydown_callback = function (event) {
     if (event.target.id == 'input-username') {
-      axios({
-        method: 'get',
-        url: app.url.join('api/user/check'),
-        params: {
-          username: username.value,
-        }
-      }).then(function (response) {
-        var result = response.data
+      if (user_data.username === username.value) {
+        // username이 처음과 같으면 통과
+        username.classList.remove('is-invalid')
+        username_feedback.innerText = 'Your username is required.'
+      } else {
+        axios({
+          method: 'get',
+          url: app.url.join('api/user/check'),
+          params: {
+            username: username.value,
+          }
+        }).then(function (response) {
+          var result = response.data
 
-        switch (result.code) {
-          case 4:
-            username_feedback.innerText = '"' + username.value + '" is overlap.'
-            username.classList.add('is-invalid')
-            break
-          default:
-            username.classList.remove('is-invalid')
-            username_feedback.innerText = 'Your username is required.'
-            break
-        }
-      })
+          switch (result.code) {
+            case 4:
+              username_feedback.innerText = '"' + username.value + '" is overlap.'
+              username.classList.add('is-invalid')
+              break
+            default:
+              username.classList.remove('is-invalid')
+              username_feedback.innerText = 'Your username is required.'
+              break
+          }
+        })
+      }
     }
 
     if (event.target.id == 'input-new-password' || event.target.id == 'input-new-password-confirm') {
